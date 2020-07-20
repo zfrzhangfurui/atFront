@@ -1,0 +1,49 @@
+<main>
+
+    <ng-container [formGroup]="controlContainer.control">
+        <div class="icon">
+
+            <nz-tag [nzColor]="'red'">-</nz-tag>
+        </div>
+
+        <!-- <nz-tag [nzColor]="'green'" style="width: 25px;text-align: center;">+</nz-tag> -->
+
+
+        <div class="input-section">
+            <div class="input-div">
+                <label>name:</label>
+                <input nz-input placeholder="name" formControlName="name" />
+            </div>
+            <div class="input-div">
+                <label>Date:</label>
+                <nz-date-picker nzPlaceHolder="Select Date"></nz-date-picker>
+
+            </div>
+            <div class="input-div">
+                <label>personal-fund:</label>
+                <input nz-input placeholder="P-fund" />
+            </div>
+            <div class="input-div">
+                <label>C-fund:</label>
+                <input nz-input placeholder="C-fund" />
+            </div>
+            <div class="input-div">
+                <label>General-money:</label>
+                <input nz-input placeholder="G-money" />
+            </div>
+
+
+            <div class="button">
+                <button nz-button nzType="primary">Edit</button>
+                <button nz-button nzType="primary">Delete</button>
+            </div>
+
+        </div>
+    </ng-container>
+
+
+
+
+
+
+</main>

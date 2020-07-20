@@ -1,0 +1,24 @@
+main{
+    section{
+        padding:20px 20px;
+        &.command{
+            display: flex;
+            justify-content: space-between;
+            &>div> button{
+                margin-right: 10px;
+               &.save{
+                   background-color: rgb(143, 216, 34);
+               }
+               &.submit{
+                background-color: rgb(52, 180, 159);
+            }
+                &:last-child{
+                    margin-right: 0;
+                }
+            }
+            &>div:last-child>button{
+                width: 100px;
+            }
+        }
+    }
+}

@@ -1,0 +1,121 @@
+main {
+  background-color: rgba(242, 109, 8, 0.2);
+
+  & > .background-picture-main {
+    height: 30vh;
+    background: linear-gradient(
+        to right,
+        rgba(233, 85, 31, 0.2) 50%,
+        rgba(247, 108, 58, 0.3) 80%
+      ),
+      url("/assets/freedom.jpg") left 10% bottom 80% / cover no-repeat
+        border-box,
+      #ff1b68;
+    background-size: cover;
+
+    & > a {
+      position: absolute;
+      display: inline-block;
+      height: 8rem;
+      top: 0.2rem;
+      left: 1rem;
+      &>img{
+        height: 100%;
+      } 
+    }
+    &>.background-title{
+      position: absolute;
+      top: 25vh;
+      right: 1vw;
+      color: rgb(69, 33, 33, 0.9);
+      font-family: Anton;
+    }
+  }
+
+  &>.body-main{
+    width: 100%;
+    height: 100%;
+    &>.nav-main{
+      width: 100%;
+      background-color: rgba(231, 65, 60, 0.9);
+      &>.nav-main__ul{
+        list-style: none;
+        padding: 0;
+        text-align: center;
+        &> li{
+          display: inline-block;
+          padding: 1% 5% 1% 5%;
+          /* margin-bottom: 1%; */
+          font-weight: bold;
+          font-size: 1.5rem;
+          color: rgb(220, 190, 190);
+          font-family: Acme;
+          &:hover,&:active{
+            color: rgb(245, 245, 245);
+            cursor: pointer;
+            background-color: rgba(138, 62, 3, 0.584);
+            border: rgba(138, 62, 3, 0.584);
+            border-radius: 1rem;
+          }
+          &:focus{
+            outline: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.body-left {
+  width: 15%;
+  height: 100%;
+
+  float: left;
+}
+
+.body-right {
+  /* width: 15%;
+  height: 100%;
+  position: relative;
+  float: right; */
+  width: 15%;
+  float: right;
+  position: sticky;
+  top: 30vh;
+}
+
+.nav-right__ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  &> li{
+    padding: 1% 5% 1% 5%;
+    /* margin-bottom: 1%; */
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: rgb(220, 190, 190);
+    font-family: Acme;
+    background-color: rgba(231, 65, 60, 0.9);
+    border-radius: 1rem;
+    margin: 0.5rem;
+    &:hover,&:active{
+      color: rgb(245, 245, 245);
+      cursor: pointer;
+      background-color: rgba(138, 62, 3, 0.584); 
+      border-radius: 1rem;
+    }
+    &:focus{
+      outline: none;
+    }
+  }
+}
+.nav-right__ul_display_none {
+  display: none;
+}
+
+
+.body-middle {
+  margin: 0 15%;
+  height: 100%;
+}
