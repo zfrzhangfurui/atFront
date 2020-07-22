@@ -1,9 +1,9 @@
-<main>
+<main *ngIf="!removeComponentToggle">
 
-    <ng-container [formGroup]="controlContainer.control">
+    <ng-container [formGroup]="form">
         <div class="icon">
 
-            <nz-tag [nzColor]="'red'">-</nz-tag>
+            <nz-tag [nzColor]="iconColor" style="cursor: pointer;" (click)="changeType()">{{index+1}}</nz-tag>
         </div>
 
         <!-- <nz-tag [nzColor]="'green'" style="width: 25px;text-align: center;">+</nz-tag> -->
@@ -14,28 +14,36 @@
                 <label>name:</label>
                 <input nz-input placeholder="name" formControlName="name" />
             </div>
+
+            <div class="input-div">
+                <label>Transfer</label>
+                <input nz-input placeholder="Transfer" formControlName="transfer"
+                    (keyup)="onAssessTransLogic('transfer')" />
+            </div>
+
             <div class="input-div">
                 <label>Date:</label>
-                <nz-date-picker nzPlaceHolder="Select Date"></nz-date-picker>
+                <nz-date-picker nzPlaceHolder="Select Date" formControlName="createdAt">
+                </nz-date-picker>
 
             </div>
             <div class="input-div">
                 <label>personal-fund:</label>
-                <input nz-input placeholder="P-fund" />
+                <input nz-input placeholder="P-fund" formControlName="p" (keyup)="onAssessTransLogic('p')" />
             </div>
             <div class="input-div">
                 <label>C-fund:</label>
-                <input nz-input placeholder="C-fund" />
+                <input nz-input placeholder="C-fund" formControlName="c" (keyup)="onAssessTransLogic('c')" />
             </div>
             <div class="input-div">
                 <label>General-money:</label>
-                <input nz-input placeholder="G-money" />
+                <input nz-input placeholder="G-money" formControlName="g" (keyup)="onAssessTransLogic('g')" />
             </div>
 
 
             <div class="button">
-                <button nz-button nzType="primary">Edit</button>
-                <button nz-button nzType="primary">Delete</button>
+                <button nz-button nzType="primary" (click)="enable()">Edit</button>
+                <button nz-button nzType="primary" (click)="remove()">Delete</button>
             </div>
 
         </div>

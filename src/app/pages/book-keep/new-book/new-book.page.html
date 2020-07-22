@@ -1,11 +1,11 @@
 <main>
     <section class="command">
         <div>
-            <button nz-button nzType="primary" nzSize="large">Add Transaction
+            <button nz-button nzType="primary" nzSize="large" (click)="addTransaction()">Add Transaction
             </button>
         </div>
         <div>
-            <button nz-button nzType="primary" class="submit" nzSize="large">Submit
+            <button nz-button nzType="primary" class="submit" nzSize="large" (click)="submit()">Submit
             </button>
             <button nz-button nzType="primary" class="save" nzSize="large">Save
             </button>
@@ -14,6 +14,10 @@
     </section>
 
     <section>
-        <fz-item></fz-item>
+        <form [formGroup]="form">
+            <ng-container *ngFor="let item of formArray.controls;let index=index">
+                <fz-item [formGroup]="item" [index]="index"></fz-item>
+            </ng-container>
+        </form>
     </section>
 </main>
