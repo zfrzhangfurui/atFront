@@ -10,9 +10,17 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 /********************************************/
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faCoffee, faUser, faKey } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCoffee,
+  faUser,
+  faKey,
+  faChevronDown,
+  faChevronUp
+} from '@fortawesome/free-solid-svg-icons';
+import { CustomComponentModule } from './core/components/custom-component.module';
 import { IndexPage } from './pages/index/index.page';
 import { AuthPage } from './pages/auth/auth.page';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +29,8 @@ import { zh_CN } from 'ng-zorro-antd/i18n';
 import zh from '@angular/common/locales/zh';
 import { BookIndexPage } from './pages/book-index/book-index.page';
 import { HeaderPage } from './pages/book-index/header/header.page';
+import { LoginPage } from './pages/auth/login/login.page';
+import { SignupPage } from './pages/auth/signup/signup.page';
 registerLocaleData(zh);
 @NgModule({
   declarations: [
@@ -28,7 +38,9 @@ registerLocaleData(zh);
     IndexPage,
     AuthPage,
     BookIndexPage,
-    HeaderPage
+    HeaderPage,
+    LoginPage,
+    SignupPage
   ],
   imports: [
     CommonModule,
@@ -39,6 +51,8 @@ registerLocaleData(zh);
     NzMenuModule,
     FontAwesomeModule,
     NzLayoutModule,
+    NzSelectModule,
+    CustomComponentModule,
     CoreModule.forRoot({
       api_gateway: environment.api_gateway
     }),
@@ -51,6 +65,6 @@ registerLocaleData(zh);
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
-    library.addIcons(faCoffee, faUser, faKey);
+    library.addIcons(faCoffee, faUser, faKey, faChevronDown, faChevronUp);
   }
 }

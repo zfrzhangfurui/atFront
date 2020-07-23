@@ -1,0 +1,84 @@
+:host{
+    display: block;
+    width: 100%;
+}
+
+.input-div{
+    position: relative;
+    display: grid;
+    grid-template-columns: 7% 93%;
+    margin:25px 0 0 0;
+    padding:5px 0;
+    border-bottom:2px solid #d9d9d9;
+    &::after,&::before{
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        width: 0;
+        height: 2px;
+        background-color: #e4b359;
+        transition:.3s ;
+    }
+    &::after{
+        right: 50%;
+    }
+    &::before{
+        left: 50%;
+    }
+    &.focus .icon > fa-icon{
+        color:#e4b359;
+        transition: .3s;
+    }
+
+    &.focus div h5{
+    top:-5px;
+    font-size: 15px;
+    }
+    &.focus::after,&.focus::before{
+        width: 50%;
+    }
+
+    &>.icon{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+        &> fa-icon{
+            color:#d9d9d9;
+        }
+    }
+
+
+    &> div{
+        position: relative;
+        height: 45px;
+        &> h5{
+            position: absolute;
+            left: 10px;
+            top:50%;
+            transform: translateY(-50%);
+            color:#999;
+            font-size: 18px;
+            transition: .3s;
+        }
+        &>.input{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top:0;
+            left: 0;
+            border: none;
+            outline: none;
+            background: none;
+            padding:0.5rem 0.7rem;
+            font-size: 1.2rem;
+            font-family: 'Poppins',sans-serif;
+            color:#555;
+        }
+
+        &>.input{
+            position: absolute;
+            width: 100%;
+        }
+    }
+
+}

@@ -1,0 +1,16 @@
+<div class="input-div" [ngClass]="{'focus':inputFocusToggle}">
+    <div class="icon">
+        <fa-icon [icon]="['fas', 'user']" size="2x"></fa-icon>
+    </div>
+    <div>
+        <h5 [ngSwitch]="usernameValidState">
+            <span style="padding-left: 10px;" *ngSwitchCase="'default'">{{message}}</span>
+            <span style="padding-left: 10px;color: red;" *ngSwitchCase="'warningMessage'">{{message}}</span>
+
+
+        </h5>
+        <input class="input" (focus)="focusFn()" (focusout)="unFocusFn()" type="text" [value]="value"
+            (input)="onChange($event.target.value); getValue($event.target.value);" (blur)="onTouched()"
+            [disabled]="disabled">
+    </div>
+</div>

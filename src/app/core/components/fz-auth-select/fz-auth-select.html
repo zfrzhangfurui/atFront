@@ -1,0 +1,23 @@
+<main>
+    <input type="checkbox" class="options-view-button">
+    <div class="brd select-button">
+        <div class="selected-value">
+            <span>select-button</span>
+        </div>
+        <div class="chevrons">
+            <fa-icon [icon]="['fas', 'chevron-up']"></fa-icon>
+            <fa-icon [icon]="['fas', 'chevron-down']"></fa-icon>
+        </div>
+    </div>
+
+    <div class="options" #options>
+        <div [class]="'a_'+(index+1)+' option'" *ngFor="let item of data;let index=index">
+            <!-- <input [class]="'option_radio i'+ index" type="radio" name="platform" value="dribbble"
+                (mouseenter)="hoverFn(index)"> -->
+            <input class="option_radio" type="radio" name="platform" value="dribbble">
+            <i class="fab fa-dribbble"></i>
+            <span class="label">{{item}}</span>
+        </div>
+        <div class="option-bg"></div>
+    </div>
+</main>
