@@ -2,41 +2,19 @@
     <form [formGroup]="form" (ngSubmit)="login()">
         <img class="avatar" src="/assets/ARTABANA-Logo.gif">
         <!-- <h2>Welcome</h2> -->
-        <div class="input-div user-section" [ngClass]="{'focus':inputFocusToggle[0]}">
-            <div class="i">
-                <fa-icon class="user-icon" [icon]="['fas', 'user']" size="2x"></fa-icon>
-                <!-- <i class="fas fa-user"></i> -->
-            </div>
-            <div>
-                <h5 [ngSwitch]="usernameValidState">
-                    <span style="padding-left: 10px;color: red;" *ngSwitchCase="'noValue'">Please enter a
-                        Username</span>
-                    <span style="padding-left: 10px;" *ngSwitchCase="'default'">Username</span>
-                    <span style="padding-left: 10px;" *ngSwitchDefault>Username</span>
+        <fz-auth-input icon="username" title="Username" [warnMessage]="warningMessage.username"
+            formControlName="username">
+        </fz-auth-input>
+        <fz-auth-input icon="password" title="Password" [warnMessage]="warningMessage.password" type="password"
+            formControlName="password">
+        </fz-auth-input>
 
-                </h5>
-                <input class="input" (focus)="focusFn('user')" (focusout)="focusFn('user')" type="text"
-                    formControlName="username">
-            </div>
-        </div>
 
-        <div class="input-div password-section" [ngClass]="{'focus':inputFocusToggle[1]}">
-            <div class="i">
-                <fa-icon class="user-icon" [icon]="['fas', 'key']" size="2x"></fa-icon>
-            </div>
-            <div>
-                <h5 [ngSwitch]="passwordValidState">
-                    <span style="padding-left: 10px;color: red;" *ngSwitchCase="'noValue'">Please enter a
-                        Password</span>
-                    <span style="padding-left: 10px;" *ngSwitchCase="'default'">Password</span>
-                    <span style="padding-left: 10px;" *ngSwitchDefault>Password</span>
-
-                </h5>
-                <input class="input" type="password" (focus)="focusFn('password')" (focusout)="focusFn('password')"
-                    formControlName="password">
-            </div>
-        </div>
         <a href="#">Forgot Password?</a>
-        <input type="submit" class="btn" value="Login">
+        <input type="submit" class="btn" [value]="loginTitle">
+        <div class="signup">
+            <a class="signup-link" (click)="signup()">Not registered? Create an account</a>
+        </div>
+
     </form>
 </main>

@@ -1,16 +1,19 @@
 <main>
     <section class="command">
         <div>
-            <button nz-button nzType="primary" nzSize="large" (click)="addTransaction()">Add Transaction
+            <button nz-button nzType="primary" style="width: 150px;" nzSize="large" (click)="addNewTransaction()">Add
+                Transaction
             </button>
         </div>
         <div>
-            <button nz-button nzType="primary" class="submit" nzSize="large" (click)="submit()">Submit
-            </button>
-            <button nz-button nzType="primary" class="save" nzSize="large">Save
-            </button>
+            <span @saveStateTrigger *ngIf="onPolling">{{savePrompt}}</span>
         </div>
 
+        <div>
+            <button nz-button nzType="primary" style="width: 150px;" class="submit" nzSize="large"
+                (click)="submit()">Submit
+            </button>
+        </div>
     </section>
 
     <section>

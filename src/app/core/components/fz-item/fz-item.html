@@ -17,7 +17,7 @@
 
             <div class="input-div">
                 <label>Transfer</label>
-                <input nz-input placeholder="Transfer" formControlName="transfer"
+                <input nz-input type="number" placeholder="Transfer" formControlName="transfer"
                     (keyup)="onAssessTransLogic('transfer')" />
             </div>
 
@@ -29,15 +29,18 @@
             </div>
             <div class="input-div">
                 <label>personal-fund:</label>
-                <input nz-input placeholder="P-fund" formControlName="p" (keyup)="onAssessTransLogic('p')" />
+                <input nz-input type="number" placeholder="P-fund" formControlName="p"
+                    (keyup)="onAssessTransLogic('p')" />
             </div>
             <div class="input-div">
                 <label>C-fund:</label>
-                <input nz-input placeholder="C-fund" formControlName="c" (keyup)="onAssessTransLogic('c')" />
+                <input nz-input type="number" placeholder="C-fund" formControlName="c"
+                    (keyup)="onAssessTransLogic('c')" />
             </div>
             <div class="input-div">
                 <label>General-money:</label>
-                <input nz-input placeholder="G-money" formControlName="g" (keyup)="onAssessTransLogic('g')" />
+                <input nz-input type="number" placeholder="G-money" formControlName="g"
+                    (keyup)="onAssessTransLogic('g')" />
             </div>
 
 

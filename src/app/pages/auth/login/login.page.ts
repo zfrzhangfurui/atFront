@@ -1,76 +1,116 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, RequiredValidator } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { interval } from 'rxjs';
+
+export interface warningMessage {
+  username: string,
+  password: string,
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.less']
 })
 export class LoginPage implements OnInit {
-  inputFocusToggle: Array<boolean> = [false, false];
-
-  focusFn(event) {
-    const form = this.form.value;
-    if (
-      event === 'user' &&
-      form.username === ''
-    ) {
-      this.inputFocusToggle[0] = !this.inputFocusToggle[0];
-    } else if (
-      event === 'password' &&
-      form.password === ''
-    ) {
-      console.log(123)
-      this.inputFocusToggle[1] = !this.inputFocusToggle[1];
-    }
-  }
-
+  warningMessage: warningMessage = {
+    username: null,
+    password: null
+  };
   form: FormGroup = this.fb.group({
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required])
+    username: new FormControl(null, [Validators.required]),
+    password: new FormControl(null, [Validators.required])
   })
 
-
-  usernameValidState = 'default';
-  passwordValidState = 'default';
-
-
-  showWarnMessage(fromBackend: boolean) {
-    if (fromBackend) {
-
-    } else {
-      console.log(this.form.controls);
-      const controls = this.form.controls;
-      for (let control in controls) {
-        if (!controls[control].valid) {
-          switch (control) {
-            case 'username': this.usernameValidState = 'noValue'; break;
-            case 'password': this.passwordValidState = 'noValue'; break;
+  validate(async: boolean) {
+    const controls = this.form.controls;
+    for (let i in controls) {
+      switch (i) {
+        case 'username':
+          if (controls[i].errors === null && !async) {
+            this.warningMessage[i] = null;
+          } else {
+            if (async) {
+              this.warningMessage[i] = 'Invlid Username or Password ';
+            } else {
+              if (controls[i].errors.required) {
+                this.warningMessage[i] = 'Username is required';
+              }
+            }
           }
-        } else if (controls[control].valid) {
-          switch (control) {
-            case 'username': this.usernameValidState = 'default'; break;
-            case 'password': this.passwordValidState = 'default'; break;
+          break;
+
+
+        case 'password':
+          if (controls[i].errors === null && !async) {
+            this.warningMessage[i] = null;
+          } else {
+            if (async) {
+              this.warningMessage[i] = 'Invlid Username or Password ';
+            } else {
+              if (controls[i].errors.required) {
+                this.warningMessage[i] = 'Password is required';
+              }
+            }
           }
-        }
+          break;
       }
     }
   }
 
-  login() {
-    this.showWarnMessage(false);
-    console.log(this.usernameValidState + '  ' + this.passwordValidState);
-    console.log(this.form.value);
-    if (this.form.valid) {
-      console.log(123);
-      this.http.post('/auth/login', {
-        email: this.form.value.username,
-        password: this.form.value.password
-      }).subscribe(data => {
-        this.router.navigate(['../book/'])
-      })
+  islogin: boolean = false;
+  loginTitle: string = 'login';
+  interval;
+
+  loginAnimation() {
+    this.islogin = !this.islogin;
+    if (this.islogin) {
+      this.interval = setInterval(() => {
+        switch (this.loginTitle) {
+          case 'login': this.loginTitle = 'loging in .'; break;
+          case 'loging in .': this.loginTitle = 'loging in ..'; break;
+          case 'loging in ..': this.loginTitle = 'loging in ...'; break;
+          case 'loging in ...': this.loginTitle = 'loging in .'; break;
+        }
+      }, 500)
+    } else {
+      console.log('clear');
+      clearInterval(this.interval);
+      this.loginTitle = 'login';
     }
+
+  }
+  login() {
+    this.validate(false);
+    if (this.form.valid && !this.islogin) {
+      this.loginAnimation();
+      const value = this.form.value;
+      this.http.post('/auth/login', {
+        email: value.username,
+        password: value.password
+      }).subscribe(data => {
+        setTimeout(() => {
+          this.loginAnimation();
+          console.log(data);
+          this.router.navigate(['../../book'], { relativeTo: this.route })
+        }, 2000)
+
+      },
+        err => {
+          setTimeout(() => {
+            this.validate(true);
+            this.loginAnimation();
+            console.log(err);
+          }, 2000)
+
+        })
+    }
+  }
+
+  signup() {
+    this.router.navigate(['../signup'], { relativeTo: this.route });
   }
   constructor(
     private fb: FormBuilder,

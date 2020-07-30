@@ -47,8 +47,8 @@ main{
 
 .brd
 {
-    border: 1px solid #e2eded;
-    border-color: #eaf1f1 #e4eded #dbe7e7 #e4eded;
+    border: 1px solid #e4b359;
+    // border-color: #eaf1f1 #e4eded #dbe7e7 #e4eded;
 }
 
 .select-button
@@ -56,16 +56,29 @@ main{
     position: relative;
     height: 100%;
     padding: 12px 14px;
-    background-color: #fff;
+    background-color: #ffe3ae;
     border-radius: 4px;
     cursor: pointer;
     font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
 
+    &>.house{
+        position: absolute;
+        left:0;
+        top:0;
+        height:100%;
+        padding: 5px 0px 4px 10px;
+        &>fa-icon{
+            display: block;
+            height: 100%;
+            color: #838383;
+            }
+    }
     &>.selected-value
     {
         font-size: 16px;
         line-height: 1;
         margin-right: 26px;
+        padding-left: 20px;
     }
     &>.chevrons{
         position: absolute;
@@ -76,7 +89,7 @@ main{
         &>fa-icon{
         display: block;
         height: 50%;
-        color: #d1dede;
+        color: #868383;
         font-size: 12px;
         text-align: right;
         }
@@ -91,6 +104,10 @@ main{
     z-index: 10;
     border-radius: 4px;
     display:none;
+    max-height: 240px;
+    // overflow:scroll;
+    // overflow-x: hidden;
+    background-color: ivory ;
     &>.option{
         position: relative;
         line-height: 1;
@@ -123,7 +140,6 @@ main{
             bottom: 0;
             left: 0;
             z-index: -1;
-            background-color: rgb(207, 100, 0);
         }
     }
 }
@@ -139,13 +155,14 @@ main{
     display: none;
 }
 
-.options-view-button:checked ~ .options{
-    display: block;
-    & .option-bg {
-        display: block;
-    }
+// .options-view-button:checked ~ .options{
+//     display: block;
+//     & .option-bg {
+//         display: block;
+//     }
 
-}
+// }
+
 
 .randomColor(){
     @randomColor: `Math.floor(Math.random()*16777215).toString(16)`;
@@ -154,7 +171,7 @@ main{
   }
 
 
-@selectors:range(100);
+@selectors:range(20);
 each(@selectors,{
     .a_@{value}:hover ~ .option-bg{
 
@@ -163,3 +180,4 @@ each(@selectors,{
          background-color: @color;
     }
 })
+

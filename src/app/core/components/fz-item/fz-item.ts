@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, ComponentRef } from '@angular/core';
 import { ControlContainer, FormGroup, FormControlName } from '@angular/forms';
 import { Transaction, TransactionStatus } from '../../../interface/new-book.interface';
+import { HttpClient } from '@angular/common/http';
 @Component({
     selector: 'fz-item',
     templateUrl: './fz-item.html',
@@ -72,11 +73,12 @@ export class FzItem implements OnInit {
 
 
     changeType() {
-        console.log(this.form);
         let value: Transaction = this.form.value;
         this.form.patchValue({
             type: !value.type
         })
+        this.form.markAllAsTouched();
+        console.log(this.form);
         this.setForm();
     }
 
@@ -125,11 +127,17 @@ export class FzItem implements OnInit {
         this.form.patchValue({
             status: TransactionStatus.ONDELETE
         });
-        this.removeComponentToggle = true;
-
+        this.http.delete(`/transactions/delete_single/${this.form.value.trans_id}`).subscribe(data => {
+            console.log(data);
+            this.removeComponentToggle = true;
+        },
+            err => {
+                console.log(err);
+            })
     }
     constructor(
         public controlContainer: ControlContainer,
+        private http: HttpClient
     ) { }
 
     ngOnInit(): void {

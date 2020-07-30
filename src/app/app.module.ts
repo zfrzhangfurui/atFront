@@ -18,7 +18,8 @@ import {
   faUser,
   faKey,
   faChevronDown,
-  faChevronUp
+  faChevronUp,
+  faHouseUser
 } from '@fortawesome/free-solid-svg-icons';
 import { CustomComponentModule } from './core/components/custom-component.module';
 import { IndexPage } from './pages/index/index.page';
@@ -65,6 +66,6 @@ registerLocaleData(zh);
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
-    library.addIcons(faCoffee, faUser, faKey, faChevronDown, faChevronUp);
+    library.addIcons(faCoffee, faUser, faKey, faChevronDown, faChevronUp, faHouseUser);
   }
 }

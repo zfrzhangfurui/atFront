@@ -1,8 +1,11 @@
 <main>
-    <input type="checkbox" class="options-view-button">
-    <div class="brd select-button">
+    <div class="brd select-button" (click)="toggle()" (blur)="onTouched()">
+        <div class="house">
+            <fa-icon [icon]="['fas', 'house-user']" size="2x"></fa-icon>
+        </div>
+
         <div class="selected-value">
-            <span>select-button</span>
+            <span>{{value}}</span>
         </div>
         <div class="chevrons">
             <fa-icon [icon]="['fas', 'chevron-up']"></fa-icon>
@@ -14,10 +17,10 @@
         <div [class]="'a_'+(index+1)+' option'" *ngFor="let item of data;let index=index">
             <!-- <input [class]="'option_radio i'+ index" type="radio" name="platform" value="dribbble"
                 (mouseenter)="hoverFn(index)"> -->
-            <input class="option_radio" type="radio" name="platform" value="dribbble">
-            <i class="fab fa-dribbble"></i>
+            <input class="option_radio" type="radio" [name]="item" [value]="item"
+                (click)="onChange($event.target.value);clickFn($event.target.value)">
             <span class="label">{{item}}</span>
         </div>
-        <div class="option-bg"></div>
+        <div class="option-bg" #bg></div>
     </div>
 </main>

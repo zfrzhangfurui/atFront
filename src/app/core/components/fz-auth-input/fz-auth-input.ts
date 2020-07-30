@@ -1,5 +1,6 @@
-import { Component, Input, forwardRef, OnInit, Self, Optional } from '@angular/core';
+import { Component, Input, forwardRef, OnInit, Self, Optional, Output } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'fz-auth-input',
@@ -11,17 +12,34 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 export class FzAuthInput implements OnInit, ControlValueAccessor {
     usernameValidState: string = 'default';
     inputFocusToggle: boolean = false;
+    iconType: Array<string>;
+    @Output()
+    focusOut: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Input('icon')
+    set icon(value: string) {
+        switch (value) {
+            case 'username': this.iconType = ['fas', 'user']; break;
+            case 'password': this.iconType = ['fas', 'key']; break;
+        }
+    }
     @Input('title') title = '';
     @Input() disabled: boolean;
+    @Input('type') type: string = 'text';
     message: string;
     @Input('warnMessage')
     set warnMessage(value: string) {
-        if (value === 'default') {
+        if (value === null || value === undefined) {
             this.usernameValidState = 'default';
             this.message = this.title;
         } else {
-            this.usernameValidState = 'warningMessage';
-            this.message = value;
+            if (value === 'This email is avaiable!') {
+                this.usernameValidState = 'avaiableEmail';
+                this.message = value;
+            } else {
+                this.usernameValidState = 'warningMessage';
+                this.message = value;
+            }
+
         }
     };
     setDisabledState(isDisabled: boolean): void {
@@ -31,7 +49,7 @@ export class FzAuthInput implements OnInit, ControlValueAccessor {
     onChange: any = () => { };
     onTouched: any = () => { };
 
-    value: string;
+    value: string = null;
 
 
 
@@ -45,23 +63,22 @@ export class FzAuthInput implements OnInit, ControlValueAccessor {
     }
 
     writeValue(value): void {
-        this.unFocusFn();
+
         if (value) {
             this.value = value;
+            this.unFocusFn();
         }
-
-
     }
-
-
 
     registerOnTouched(fn) {
         this.onTouched = fn;
     }
     focusFn() {
+        this.focusOut.emit(false);
         this.inputFocusToggle = true;
     }
     unFocusFn() {
+        this.focusOut.emit(true);
         if (this.value !== '' && this.value !== null) {
             this.inputFocusToggle = true;
         } else {
