@@ -10,8 +10,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SignupPage implements OnInit {
   value: Array<string> = ['hobart', 'launceston',]
   form: FormGroup = this.fb.group({
-    email: new FormControl(null, [Validators.email]),
-    password: new FormControl(null)
+    community: new FormControl(null, [Validators.required]),
+    email: new FormControl(null, [Validators.required, Validators.email]),
+    password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+    repeatPassword: new FormControl(null, [Validators.required])
   })
   vaildationResult = {
     email: null,
@@ -19,28 +21,67 @@ export class SignupPage implements OnInit {
     repeatPassword: null
   }
   signup() {
-    this.http.post('/auth/register', {})
+    const community = this.form.controls.community;
+    const emailForm = this.form.controls.email;
+    const password = this.form.controls.password;
+    const repeatPassword = this.form.controls.repeatPassword;
+    // this.checkEmail(true);
+    console.log(this.form.valid);
+
+
+    this.checkEmail(true);
+    if (this.form.valid) {
+      if (password.value === repeatPassword.value) {
+        this.vaildationResult.repeatPassword = null;
+        this.vaildationResult.password = null
+        if (this.avaiableEmail) {
+          this.http.post('/auth/register', { community: community.value, email: emailForm.value, password: password.value }).subscribe(data => {
+            console.log(data);
+          })
+        }
+
+      } else {
+        this.vaildationResult.repeatPassword = 'not identical to password';
+      }
+    } else {
+      if (password.errors !== null) {
+        console.log(password.errors);
+        console.log(password.hasOwnProperty('errors'));
+        if (password.errors.hasOwnProperty('minlength')) {
+          this.vaildationResult.password = 'at least 6 letters';
+        }
+        if (password.errors.hasOwnProperty('required')) {
+          this.vaildationResult.password = 'This field is requied';
+        }
+      } else {
+        this.vaildationResult.password = null;
+      }
+    }
+
   }
 
-
+  avaiableEmail: boolean = false;
   emailFocusOutToggle: boolean;
   checkEmail(event) {
     const emailForm = this.form.controls.email;
     if (event) {
       if (emailForm.valid) {
-        if (emailForm.value !== null && emailForm.value !== '') {
-          this.http.get<{ success, isUserExsits }>(`/auth/validate_email/${emailForm.value}`).subscribe(data => {
-            if (!data.isUserExsits) {
-              this.vaildationResult.email = 'This email is avaiable!';
-            } else {
-              this.vaildationResult.email = 'email is already exists!';
-            }
-          })
-        } else {
-          this.vaildationResult.email = null;
-        }
+        this.http.get<{ success, isUserExsits }>(`/auth/validate_email/${emailForm.value}`).subscribe(data => {
+          if (!data.isUserExsits) {
+            this.avaiableEmail = true;
+            this.vaildationResult.email = 'This email is avaiable!';
+          } else {
+            this.avaiableEmail = false;
+            this.vaildationResult.email = 'email is already exists!';
+          }
+        })
       } else {
-        this.vaildationResult.email = 'this field has to filled with email!';
+        this.avaiableEmail = false;
+        if (emailForm.value === null || emailForm.value === '') {
+          this.vaildationResult.email = 'this field is required!';
+        } else {
+          this.vaildationResult.email = 'this field has to filled with email!';
+        }
       }
     }
   }

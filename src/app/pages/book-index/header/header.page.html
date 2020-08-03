@@ -1,20 +1,18 @@
 <nav>
     <ul nz-menu nzMode="horizontal">
-        <li nz-menu-item>
-
-            Navigation One
+        <li nz-menu-item class="menu-li" [routerLink]="['dashboard-page']" routerLinkActive="active"
+            [nzMatchRouter]="true">
+            Dashboard
         </li>
-        <li nz-menu-item>
-
-            Navigation Two
+        <li nz-menu-item class="menu-li" routerLinkActive="active" [nzMatchRouter]="true">
+            Browsing Transactions
         </li>
-        <li nz-menu-item>
-
-            Navigation Two
+        <li nz-menu-item class="menu-li" [routerLink]="['new-book-page']" routerLinkActive="active"
+            [nzMatchRouter]="true">
+            entry Transactions
         </li>
-        <li nz-menu-item>
-
-            Navigation Two
+        <li nz-menu-item class="menu-li" [routerLink]="['admin-page']" [nzMatchRouter]="true">
+            administration
         </li>
 
     </ul>
