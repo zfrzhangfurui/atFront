@@ -3,18 +3,20 @@
         <h1>Welcome, Config your account before using the book-keeping app</h1>
         <div style="display: flex;flex-direction: column;width: 100%;align-items: flex-start;">
             <h2>Step 1:</h2>
-            <h2 class="step">Please link yourself to a existing member setted by leader:</h2>
+            <h2 class="step">Please link yourself to a existing member setted by community admin:</h2>
         </div>
 
 
 
         <div class="filter">
             <label>Filter:</label>
-            <input nz-input type="text">
+            <form [formGroup]="search">
+                <input nz-input type="text" formControlName="value">
+            </form>
         </div>
 
-        <nz-table #headerTable [nzData]="listOfData" [nzPageSize]="50" [nzScroll]="{ y: '240px' }" class="table"
-            [nzShowPagination]="false" [nzWidthConfig]="['200px','600px']">
+        <nz-table #headerTable [nzData]="table$ | async" [nzPageSize]="1000" [nzScroll]="{ y: '240px' }" class="table"
+            [nzShowPagination]="false" [nzWidthConfig]="['200px','600px']" style="height:300px">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -27,7 +29,7 @@
                     <td>{{ data.name }}</td>
                     <td>{{ data.address }}</td>
                     <td>
-                        <button nz-button>123123</button>
+                        <button nz-button (click)="linkToMember(data)" >Link</button>
                     </td>
                 </tr>
             </tbody>
@@ -43,13 +45,13 @@
                 <nz-form-item>
                     <nz-form-label>First Name: </nz-form-label>
                     <nz-form-control nzErrorTip="Please input your username!">
-                        <input nz-input formControlName="fieldA" placeholder="input placeholder" />
+                        <input nz-input formControlName="firstName" placeholder="input placeholder" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item style="padding-left: 20px;">
                     <nz-form-label>Last Name: </nz-form-label>
                     <nz-form-control nzErrorTip="Please input your username!">
-                        <input nz-input formControlName="fieldA" placeholder="input placeholder" />
+                        <input nz-input formControlName="lastName" placeholder="input placeholder" />
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -57,14 +59,14 @@
                 <nz-form-item>
                     <nz-form-label>Address: </nz-form-label>
                     <nz-form-control nzErrorTip="Please input your Password!">
-                        <input nz-input formControlName="filedB" placeholder="input placeholder" />
+                        <input nz-input formControlName="address" placeholder="input placeholder" />
                     </nz-form-control>
                 </nz-form-item>
             </div>
 
             <nz-form-item>
                 <nz-form-control>
-                    <button nz-button nzType="primary">Submit</button>
+                    <button nz-button nzType="primary">create</button>
                 </nz-form-control>
             </nz-form-item>
         </form>

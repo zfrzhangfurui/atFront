@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, Injectable } from '@angular/core';
+import { UserService } from '../../book-keep/user.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.page.html',
@@ -7,10 +7,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HeaderPage implements OnInit {
 
-  nav$ = this.http.get('/user/me').subscribe(data => {
+  user$ = this.userService.user$.subscribe(data => {
     console.log(data);
   })
-  constructor(private http: HttpClient) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
   }

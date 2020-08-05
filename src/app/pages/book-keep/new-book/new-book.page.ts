@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { BehaviorSubject, of, interval, forkJoin, combineLatest, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -27,7 +27,7 @@ import {
     ])
   ]
 })
-export class NewBookPage implements OnInit {
+export class NewBookPage implements OnInit, OnDestroy {
   onPolling: boolean = false;
   savePrompt: string = 'Saved !';
   formSeq: number = 0;
@@ -118,7 +118,7 @@ export class NewBookPage implements OnInit {
       } else if (item.touched === true && item.value.status === TransactionStatus.OLD) { //update
         console.log(item);
         arrOnUpdate.push(item.getRawValue());
-      } 
+      }
     }
 
     console.log('ArrOnCreate', arrOnCreate);
@@ -180,7 +180,9 @@ export class NewBookPage implements OnInit {
 
   ngOnInit(): void {
   }
-
+  ngOnDestroy(): void {
+    this.Polling.unsubscribe();
+  }
   submit() {
   }
 

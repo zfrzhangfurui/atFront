@@ -1,1 +1,7 @@
-<app-member></app-member>
+<main *ngIf="role$ | async as role">
+    <app-member-first-login *ngIf="role === 'user';else dashboard"></app-member-first-login>
+    <ng-template #dashboard>
+
+        123123123
+    </ng-template>
+</main>

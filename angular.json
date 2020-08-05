@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "atfront"
+  "defaultProject": "atfront",
+  "cli": {
+    "analytics": false
+  }
 }
