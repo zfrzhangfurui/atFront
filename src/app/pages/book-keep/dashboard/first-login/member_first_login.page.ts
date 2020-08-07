@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { debounceTime, distinctUntilChanged, switchMap, pluck } from 'rxjs/operators';
 import { UserService } from '../../user.service';
@@ -21,9 +21,9 @@ interface HttpResponeList extends ItemData {
 export class MemberFirstLoginPage implements OnInit {
   listOfData: ItemData[] = [];
   form = this.fb.group({
-    firstName: null,
-    lastName: null,
-    address: null
+    firstName: new FormControl(null, [Validators.required]),
+    lastName: new FormControl(null, [Validators.required]),
+    address: new FormControl(null, [Validators.required]),
   });
   // talbe$ = debounceTime(),distinctUntilChanged()
   search = this.fb.group({
@@ -36,17 +36,18 @@ export class MemberFirstLoginPage implements OnInit {
     distinctUntilChanged(),
     switchMap(val => {
       if (val === true) {
-        return this.http.get<HttpResponeList>('/community/get_members');
+        return this.http.get<HttpResponeList>('/member/first_login_get_members');
       } else {
         console.log(val);
-        return this.http.get<HttpResponeList>(`/community/get_members?pattern=${val.value}`);
+        return this.http.get<HttpResponeList>(`/member/first_login_get_members?pattern=${val.value}`);
       }
 
     }), pluck('list')
   )
   linkToMember(member) {
-    console.log(member);
-    this.http.put('/community/user_link_to_member', { member_id: member.member_id }).subscribe(
+    console.log(member.member_id);
+
+    this.http.put('/member/user_link_to_member', { member_id: member.member_id }).subscribe(
       data => {
         console.log(data);
         this.userService.getUserInfo.next(true);
@@ -56,7 +57,15 @@ export class MemberFirstLoginPage implements OnInit {
     };
   }
 
-  submitForm() { }
+  submitForm() {
+    if (this.form.valid) {
+      const value = this.form.value;
+      const name = value.firstName.trim() + ' ' + value.lastName.trim();
+      this.http.post('/member/user_become_member_without_name', { name, address: value.address }).subscribe(data => {
+        this.userService.getUserInfo.next(true);
+      })
+    }
+  }
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,

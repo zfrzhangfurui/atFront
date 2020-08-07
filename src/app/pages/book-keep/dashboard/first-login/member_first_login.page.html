@@ -29,7 +29,9 @@
                     <td>{{ data.name }}</td>
                     <td>{{ data.address }}</td>
                     <td>
-                        <button nz-button (click)="linkToMember(data)" >Link</button>
+                        <button nz-button nz-popconfirm [nzPopconfirmTitle]="'Comfirm to link to '+ data.name"
+                            (nzOnConfirm)="linkToMember(data)" (nzOnCancel)="true"
+                            nzPopconfirmPlacement="topLeft">Link</button>
                     </td>
                 </tr>
             </tbody>
@@ -44,13 +46,13 @@
             <div style="display: flex; width: 500px; justify-content: flex-start;">
                 <nz-form-item>
                     <nz-form-label>First Name: </nz-form-label>
-                    <nz-form-control nzErrorTip="Please input your username!">
+                    <nz-form-control nzErrorTip="First name is Required!">
                         <input nz-input formControlName="firstName" placeholder="input placeholder" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item style="padding-left: 20px;">
                     <nz-form-label>Last Name: </nz-form-label>
-                    <nz-form-control nzErrorTip="Please input your username!">
+                    <nz-form-control nzErrorTip="Last name is required!">
                         <input nz-input formControlName="lastName" placeholder="input placeholder" />
                     </nz-form-control>
                 </nz-form-item>
@@ -58,15 +60,22 @@
             <div style="width: 500px; ">
                 <nz-form-item>
                     <nz-form-label>Address: </nz-form-label>
-                    <nz-form-control nzErrorTip="Please input your Password!">
+                    <nz-form-control [nzErrorTip]="addressError">
                         <input nz-input formControlName="address" placeholder="input placeholder" />
+                        <ng-template #addressError>
+                            <ng-container
+                                *ngIf="form.controls.address.touched && form.controls.address.hasError('required')">
+                                Address is Required!
+                            </ng-container>
+                        </ng-template>
+
                     </nz-form-control>
                 </nz-form-item>
             </div>
 
             <nz-form-item>
                 <nz-form-control>
-                    <button nz-button nzType="primary">create</button>
+                    <button nz-button type="submit" nzType="primary" [disabled]="!form.valid">create</button>
                 </nz-form-control>
             </nz-form-item>
         </form>

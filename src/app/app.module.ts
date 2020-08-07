@@ -23,8 +23,8 @@ import { CustomComponentModule } from './core/components/custom-component.module
 import { IndexPage } from './pages/index/index.page';
 import { AuthPage } from './pages/auth/auth.page';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { zh_CN } from 'ng-zorro-antd/i18n';
+
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import zh from '@angular/common/locales/zh';
 
 import { LoginPage } from './pages/auth/login/login.page';
@@ -54,7 +54,7 @@ registerLocaleData(zh);
     ReactiveFormsModule,
     BrowserAnimationsModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: zh_CN }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

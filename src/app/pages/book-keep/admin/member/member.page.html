@@ -1,0 +1,66 @@
+<main>
+    <div>
+        <input nz-input class="filter" placeholder="Filter" nzSize="default" />
+        <nz-table #basicTable [nzData]="memberTable$ | async" [nzWidthConfig]="['30%','50%']" [(nzTotal)]="total"
+            [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" (nzQueryParams)="onQueryParamsChange($event)"
+            [nzFrontPagination]="false">
+            <thead style="background-color: rgb(35, 98, 77);">
+                <tr>
+                    <th class="title">Name</th>
+                    <th class="title">Address</th>
+                    <th class="title">Action</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                <tr *ngFor="let data of basicTable.data">
+                    <td [ngClass]="{'td_empty': data.type}">{{ data.name }}</td>
+                    <td [ngClass]="{'td_empty': data.type}">{{ data.address }}</td>
+                    <td [ngClass]="{'td_empty': data.type}">
+
+                        <button nz-button *ngIf="!data.type">delete</button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+    <div class="add_member_div">
+        <div class="add_member">
+            <h2>New Member</h2>
+            <form nz-form [nzLayout]="'vertical'" [formGroup]="memberForm" (ngSubmit)="addMember()">
+                <div style="display: flex; justify-content: flex-start;">
+                    <nz-form-item>
+                        <nz-form-label>First Name: </nz-form-label>
+                        <nz-form-control nzErrorTip="name is required!">
+                            <input nz-input formControlName="firstName" placeholder="First Name" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item style="padding-left: 20px;">
+                        <nz-form-label>Last Name: </nz-form-label>
+                        <nz-form-control nzErrorTip="name is required!">
+                            <input nz-input formControlName="lastName" placeholder="Last Name" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div>
+                    <nz-form-item>
+                        <nz-form-label>Address: </nz-form-label>
+                        <nz-form-control nzErrorTip="Address is required!">
+                            <input nz-input formControlName="address" placeholder="Address" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button type="submit" nzType="primary" [disabled]="!memberForm.valid">create</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+
+
+
+
+    </div>
+</main>

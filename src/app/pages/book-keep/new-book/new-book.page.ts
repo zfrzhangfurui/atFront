@@ -54,9 +54,9 @@ export class NewBookPage implements OnInit, OnDestroy {
     return of();
   })).subscribe()
 
-  member$ = this.http.get('/community/get_members').subscribe(_member => {
-    // console.log(_member);
-  })
+  // member$ = this.http.get('/community/get_members').subscribe(_member => {
+  //   // console.log(_member);
+  // })
 
   createItem(item) {
     let i = this.fb.group({

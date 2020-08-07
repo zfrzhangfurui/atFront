@@ -17,7 +17,12 @@ export class UserService {
     getUserInfo: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
     user$ = this.getUserInfo.pipe(switchMap(() => {
-        return this.http.get<User>('/user/me').pipe(shareReplay())
+        return this.http.get<User>('/user/me')
     }))
-    constructor(private http: HttpClient) { }
+    userInfo$ = this.user$.pipe(shareReplay())
+    constructor(private http: HttpClient) {
+        this.userInfo$.subscribe(data => {
+            console.log(data);
+        })
+    }
 } 

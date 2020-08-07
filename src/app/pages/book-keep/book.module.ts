@@ -11,12 +11,19 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CustomComponentModule } from '../../core/components/custom-component.module';
 import { BookIndexPage } from '../book-index/book-index.page';
 import { HeaderPage } from '../book-index/header/header.page';
 import { DashboardPage } from './dashboard/dashboard.page';
-import { MemberFirstLoginPage } from './admin/member/member_first_login.page';
+import { MemberFirstLoginPage } from './dashboard/first-login/member_first_login.page';
+import { MemberPage } from './admin/member/member.page';
 import { UserService } from './user.service';
+import { BrowseBookPage } from './browse-book/browse-book.page';
 @NgModule({
     declarations: [
         AdminPage,
@@ -24,7 +31,9 @@ import { UserService } from './user.service';
         DashboardPage,
         MemberFirstLoginPage,
         BookIndexPage,
-        HeaderPage
+        HeaderPage,
+        MemberPage,
+        BrowseBookPage
     ],
     imports: [
         NzTableModule,
@@ -37,6 +46,11 @@ import { UserService } from './user.service';
         NzInputModule,
         NzLayoutModule,
         NzMenuModule,
+        NzPopconfirmModule,
+        NzTabsModule,
+        NzAvatarModule,
+        NzMessageModule,
+        NzSelectModule,
         RouterModule.forChild(
             [
                 {
@@ -45,6 +59,7 @@ import { UserService } from './user.service';
                         { path: 'admin-page', component: AdminPage },
                         { path: 'new-book-page', component: NewBookPage },
                         { path: 'dashboard-page', component: DashboardPage },
+                        { path: 'browse-book-page', component: BrowseBookPage },
                     ]
                 }
             ]

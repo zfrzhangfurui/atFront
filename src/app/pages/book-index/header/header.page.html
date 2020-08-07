@@ -4,7 +4,8 @@
             [nzMatchRouter]="true">
             Dashboard
         </li>
-        <li nz-menu-item class="menu-li" routerLinkActive="active" [nzMatchRouter]="true">
+        <li nz-menu-item class="menu-li" routerLinkActive="active" [routerLink]="['browse-book-page']"
+            [nzMatchRouter]="true">
             Browsing Transactions
         </li>
         <li nz-menu-item class="menu-li" [routerLink]="['new-book-page']" routerLinkActive="active"
@@ -16,5 +17,9 @@
         </li>
 
     </ul>
-    <div>123123</div>
+    <div class="user">
+
+        <nz-avatar nzSize="large" nzIcon="user"></nz-avatar>
+        <h2>Welcome!</h2>
+    </div>
 </nav>

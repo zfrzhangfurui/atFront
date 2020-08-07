@@ -8,10 +8,11 @@ import { pluck } from 'rxjs/operators';
   styleUrls: ['./dashboard.page.less']
 })
 export class DashboardPage implements OnInit {
-  role$ = this.userService.user$.pipe(pluck('userInfo', 'role'));
+  role$ = this.userService.userInfo$.pipe(pluck('userInfo', 'role'));;
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.role$.subscribe(data => console.log(data));
   }
 
 }
