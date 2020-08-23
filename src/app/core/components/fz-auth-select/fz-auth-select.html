@@ -14,12 +14,12 @@
     </div>
 
     <div class="options" #options>
-        <div [class]="'a_'+(index+1)+' option'" *ngFor="let item of data;let index=index">
+        <div [class]="'a_'+(index+1)+' option'" *ngFor="let item of data | async;let index=index">
             <!-- <input [class]="'option_radio i'+ index" type="radio" name="platform" value="dribbble"
                 (mouseenter)="hoverFn(index)"> -->
-            <input class="option_radio" type="radio" [name]="item" [value]="item"
-                (click)="onChange($event.target.value);clickFn($event.target.value)">
-            <span class="label">{{item}}</span>
+            <input class="option_radio" type="radio" [name]="item.community" [value]="item.id"
+                (click)="onChange($event.target.value);fillSelectedOptionAndResetStyles($event.target.name)">
+            <span class="label">{{item.community}}</span>
         </div>
         <div class="option-bg" #bg></div>
     </div>

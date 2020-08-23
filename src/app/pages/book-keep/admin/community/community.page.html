@@ -1,0 +1,103 @@
+<main>
+    <div class="community_section">
+        <button nz-button class="community_button" (click)="showCommunityModal()">Add community</button>
+        <nz-table #communityTable [nzShowPagination]="false" [nzData]="communityList$ | async">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>admin</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of communityTable.data">
+                    <td>{{data.community}}</td>
+                    <td>{{data.adminNames}}</td>
+                    <td>
+                        <button nz-button (click)="selectCommunity(data)">select</button>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+    <div class="memeber_section">
+        <div class="member_button_section">
+            <h4>current selected Community:</h4>
+        </div>
+        <nz-table #memberTable [nzData]="memberList$ | async" [nzWidthConfig]="['30%','50%']" [(nzTotal)]="total"
+            [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" (nzQueryParams)="onQueryParamsChange($event)"
+            [nzFrontPagination]="false">
+            <thead style="background-color: rgb(35, 98, 77);">
+                <tr>
+                    <th class="title">member id</th>
+                    <th class="title">name</th>
+                    <th class="title">address</th>
+                    <th class="title">role</th>
+                    <th class="title">Action</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                <tr *ngFor="let data of memberTable.data">
+                    <td [ngClass]="{'td_empty': data.type}">{{ data.m_id }}</td>
+                    <td [ngClass]="{'td_empty': data.type}">
+                        {{ data.name}}
+                    </td>
+                    <td [ngClass]="{'td_empty': data.type}">{{ data.address }}</td>
+                    <td [ngClass]="{'td_empty': data.type}">
+                        {{ data.user_id === undefined?'No user linked': data.user_id.role}}
+                    </td>
+                    <td [ngClass]="{'td_empty': data.type}">
+
+                        <button nz-button *ngIf="!data.type">delete</button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</main>
+
+
+
+<nz-modal [(nzVisible)]="addCommunityModalVisible" nzTitle="Create New Community" (nzOnCancel)="handleCancel()"
+    [nzOkLoading]="isCommunityOkLoading" (nzOnOk)="communityHandleOk()">
+    <form nz-form [formGroup]="addCommunityForm">
+        <nz-form-item>
+            <nz-form-label [nzNoColon]="true" nzRequired [nzSpan]="10" nzFor="name">Community Name:</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Community name is required!">
+                <input nz-input name="name" type="text" formControlName="name">
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzNoColon]="true" nzRequired [nzSpan]="10" nzFor="name">Security Code:</nz-form-label>
+            <nz-form-control [nzSpan]="12" [nzErrorTip]="securityCodeTip">
+                <input nz-input name="securityCode" type="text" formControlName="securityCode">
+
+                <ng-template #securityCodeTip let-control>
+                    <ng-container *ngIf="addCommunityForm.get('securityCode').hasError('required')">Security code is
+                        required!</ng-container>
+                    <ng-container *ngIf="addCommunityForm.get('securityCode').hasError('minlength')">Code minlength is 6
+                    </ng-container>
+
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzNoColon]="true" nzRequired [nzSpan]="10" nzFor="name">Confirm Security Code:
+            </nz-form-label>
+            <nz-form-control [nzSpan]="12" [nzErrorTip]="matchSecurityCodeTip">
+                <input nz-input name="confirmSecurityCode" type="text" formControlName="confirmSecurityCode">
+                <ng-template #matchSecurityCodeTip let-control>
+                    <ng-container *ngIf="addCommunityForm.get('confirmSecurityCode').hasError('required')">Repeat
+                        Security code is
+                        required!</ng-container>
+                    <ng-container *ngIf="addCommunityForm.get('confirmSecurityCode').hasError('securityCodeMismatch')">
+                        mismatch
+                    </ng-container>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+
+
+    </form>
+</nz-modal>

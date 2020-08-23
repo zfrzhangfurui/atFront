@@ -1,46 +1,74 @@
 <main *ngIf="!removeComponentToggle">
-
     <ng-container [formGroup]="form">
         <div class="icon">
-
             <nz-tag [nzColor]="iconColor" style="cursor: pointer;" (click)="changeType()">{{index+1}}</nz-tag>
         </div>
 
-        <!-- <nz-tag [nzColor]="'green'" style="width: 25px;text-align: center;">+</nz-tag> -->
-
-
         <div class="input-section">
-            <div class="input-div">
+            <div class="input_name">
                 <label>name:</label>
-                <input nz-input placeholder="name" formControlName="name" />
+
+
+
+                <nz-select [ngClass]="{'select-error': form.get('member_id').hasError('required') && userTrySubmit}"
+                    nzPlaceHolder="Select Member" formControlName="member_id" nzServerSearch nzShowSearch
+                    [nzDropdownMatchSelectWidth]="false" [nzAllowClear]="true" [nzShowArrow]="false"
+                    (ngModelChange)="selectValueChange()" (nzOnSearch)="search($event)">
+                    <nz-option *ngFor="let o of listOfOption" [nzValue]="o.value" [nzLabel]="o.text"></nz-option>
+                </nz-select>
+                <span class="error" *ngIf="form.get('member_id').hasError('required') && userTrySubmit">Name is
+                    required!</span>
+                <!-- <nz-form-control [nzErrorTip]="errorTpl">
+                    <ng-template #errorTpl let-control>
+                        <ng-container *ngIf="form.get('member_id').hasError('required')">
+                            Member name is required!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control> -->
+
             </div>
 
             <div class="input-div">
                 <label>Transfer</label>
-                <input nz-input type="number" placeholder="Transfer" formControlName="transfer"
-                    (keyup)="onAssessTransLogic('transfer')" />
+                <input [ngClass]="{'select-error': form.hasError('transfer') && userTrySubmit}" nz-input type="number"
+                    placeholder="Transfer" formControlName="transfer" (keyup)="onAssessTransLogic('transfer')" />
+                <span class="error" *ngIf="form.hasError('transfer') && userTrySubmit">required and must
+                    greater than 0</span>
             </div>
 
             <div class="input-div">
                 <label>Date:</label>
-                <nz-date-picker nzPlaceHolder="Select Date" formControlName="createdAt">
+                <nz-date-picker
+                    [ngClass]="{'select-error': form.get('createdAt').hasError('required') && userTrySubmit}"
+                    nzPlaceHolder="Select Date" formControlName="createdAt">
                 </nz-date-picker>
-
+                <span class="error" *ngIf="form.get('createdAt').hasError('required') && userTrySubmit">Time is
+                    required!
+                </span>
             </div>
             <div class="input-div">
                 <label>personal-fund:</label>
-                <input nz-input type="number" placeholder="P-fund" formControlName="p"
-                    (keyup)="onAssessTransLogic('p')" />
+                <input [ngClass]="{'select-error': form.hasError('p') && userTrySubmit}" nz-input type="number"
+                    placeholder="P-fund" formControlName="p" (keyup)="onAssessTransLogic('p')" />
+                <span class="error" *ngIf="form.hasError('p') && userTrySubmit">must greater than
+                    0!</span>
+
             </div>
             <div class="input-div">
                 <label>C-fund:</label>
-                <input nz-input type="number" placeholder="C-fund" formControlName="c"
-                    (keyup)="onAssessTransLogic('c')" />
+                <input [ngClass]="{'select-error': form.hasError('c') && userTrySubmit}" nz-input type="number"
+                    placeholder="C-fund" formControlName="c" (keyup)="onAssessTransLogic('c')" />
+                <span class="error" *ngIf="form.hasError('c') && userTrySubmit">must greater than
+                    0!</span>
+
             </div>
             <div class="input-div">
                 <label>General-money:</label>
-                <input nz-input type="number" placeholder="G-money" formControlName="g"
-                    (keyup)="onAssessTransLogic('g')" />
+                <input [ngClass]="{'select-error': form.hasError('g') && userTrySubmit}" nz-input type="number"
+                    placeholder="G-money" formControlName="g" (keyup)="onAssessTransLogic('g')" />
+                <span class="error" *ngIf="form.hasError('g') && userTrySubmit"> must greater than
+                    0!</span>
+
             </div>
 
 
@@ -51,10 +79,4 @@
 
         </div>
     </ng-container>
-
-
-
-
-
-
 </main>

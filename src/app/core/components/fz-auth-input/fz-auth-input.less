@@ -7,8 +7,8 @@
     position: relative;
     display: grid;
     grid-template-columns: 7% 93%;
-    margin:25px 0 0 0;
-    padding:5px 0;
+    margin:16px 0 0 0;
+   
     border-bottom:2px solid #d9d9d9;
     &::after,&::before{
         content: '';
@@ -32,7 +32,7 @@
 
     &.focus div h5{
     top:-5px;
-    font-size: 15px;
+    font-size: 13px;
     }
     &.focus::after,&.focus::before{
         width: 50%;
@@ -52,13 +52,10 @@
     &> div{
         position: relative;
         height: 45px;
-        &.input-container{
-            // margin-left: 20px;
-        }
         &> h5{
             position: absolute;
             left: 10px;
-            top:50%;
+            top:40%;
             transform: translateY(-50%);
             color:#999;
             font-size: 18px;
@@ -74,7 +71,7 @@
             outline: none;
             background: none;
             padding:0.5rem 0.7rem;
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-family: 'Poppins',sans-serif;
             color:#555;
         }
@@ -85,4 +82,17 @@
         }
     }
 
+}
+.message{
+    height:10px;
+    width: 100%;
+    &>span{
+        float: right;font-size: 12px;
+    }
+    &>.warnMessage{
+        color: rgb(167, 0, 0);
+    }
+    &>.successMessage{
+        color: rgb(62, 144, 7);
+    }
 }

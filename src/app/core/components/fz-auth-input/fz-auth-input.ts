@@ -20,6 +20,7 @@ export class FzAuthInput implements OnInit, ControlValueAccessor {
         switch (value) {
             case 'username': this.iconType = ['fas', 'user']; break;
             case 'password': this.iconType = ['fas', 'key']; break;
+            case 'handHoldingHeart': this.iconType = ['fas', 'hand-holding-heart']; break;
         }
     }
     @Input('title') title = '';
@@ -30,7 +31,6 @@ export class FzAuthInput implements OnInit, ControlValueAccessor {
     set warnMessage(value: string) {
         if (value === null || value === undefined) {
             this.usernameValidState = 'default';
-            this.message = this.title;
         } else {
             if (value === 'This email is avaiable!') {
                 this.usernameValidState = 'avaiableEmail';

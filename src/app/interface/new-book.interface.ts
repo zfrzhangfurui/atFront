@@ -6,7 +6,7 @@ export enum TransactionStatus {
 
 export interface Transaction {
     name: string,
-    member_Id: number,
+    member_id: number,
     trans_id: number,
     formSeq: number,
     seq: number,

@@ -1,35 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { pluck, debounceTime, take, switchMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.less']
 })
 export class SignupPage implements OnInit {
-  value: Array<string> = ['hobart', 'launceston',]
+  value$: Observable<[{ community: string, id: string }]> = this.http.get('/community/get_communities').pipe(pluck('list'))
+
   form: FormGroup = this.fb.group({
     community: new FormControl(null, [Validators.required]),
-    email: new FormControl(null, [Validators.required, Validators.email]),
+    email: new FormControl(null, [Validators.required, Validators.email], existingEmailValidator(this.http)),
     password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     repeatPassword: new FormControl(null, [Validators.required])
-  })
+  }, { validators: PasswordCompareValidateFn('password', 'repeatPassword') })
   vaildationResult = {
     email: null,
     password: null,
     repeatPassword: null
   }
   signup() {
+
+    console.log(this.form);
+    return
     const community = this.form.controls.community;
     const emailForm = this.form.controls.email;
     const password = this.form.controls.password;
     const repeatPassword = this.form.controls.repeatPassword;
     // this.checkEmail(true);
-    console.log(this.form.valid);
 
 
-    this.checkEmail(true);
+
+    this.checkEmail();
     if (this.form.valid) {
       if (password.value === repeatPassword.value) {
         this.vaildationResult.repeatPassword = null;
@@ -62,28 +68,18 @@ export class SignupPage implements OnInit {
 
   avaiableEmail: boolean = false;
   emailFocusOutToggle: boolean;
-  checkEmail(event) {
+  checkEmail() {
     const emailForm = this.form.controls.email;
-    if (event) {
-      if (emailForm.valid) {
-        this.http.get<{ success, isUserExsits }>(`/auth/validate_email/${emailForm.value}`).subscribe(data => {
-          if (!data.isUserExsits) {
-            this.avaiableEmail = true;
-            this.vaildationResult.email = 'This email is avaiable!';
-          } else {
-            this.avaiableEmail = false;
-            this.vaildationResult.email = 'email is already exists!';
-          }
-        })
-      } else {
-        this.avaiableEmail = false;
-        if (emailForm.value === null || emailForm.value === '') {
-          this.vaildationResult.email = 'this field is required!';
-        } else {
-          this.vaildationResult.email = 'this field has to filled with email!';
-        }
-      }
+    if (emailForm.valid) {
+      return 0;
     }
+    if (emailForm.hasError('required')) {
+      this.vaildationResult.email = 'Email is required!';
+    } else if (emailForm.hasError('email')) {
+      this.vaildationResult.email = 'this field must filled with Email!'
+    } else if (emailForm.hasError('EmailUseByOthers'))
+      this.vaildationResult.email = 'this This email has been used by others!'
+
   }
   backToLogin() {
     this.router.navigate(['../login'], { relativeTo: this.route });
@@ -103,4 +99,53 @@ export class SignupPage implements OnInit {
   }
 
 
+}
+
+
+
+export function existingEmailValidator(http: HttpClient): AsyncValidatorFn {
+  return (control: FormControl): Observable<{ [key: string]: any } | null> => {
+    console.log(control);
+    if (control.value === null) {
+      return of(null)
+    } else {
+      return of(control.value).pipe(debounceTime(500), take(1), switchMap(_ => {
+        return http.get<{ success, isEmailAvailable }>(`/auth/validate_email/${control.value}`)
+      }), pluck('isEmailAvailable'), switchMap(isEmailAvailable => {
+        if (isEmailAvailable) {
+          return of(null)
+        } else {
+          return of({ EmailUseByOthers: true })
+        }
+      }), tap(_ => {
+        control.parent.updateValueAndValidity({ onlySelf: false, emitEvent: true })
+      })
+      )
+    }
+  }
+}
+
+
+
+
+
+export function PasswordCompareValidateFn(password: string, confirmPassword: string): ValidatorFn {
+  return (formGroup: FormGroup) => {
+    const passwordControl = formGroup.get(password);
+    const confirmPasswordControl = formGroup.get(confirmPassword);
+    console.log(123);
+    if (!passwordControl || !confirmPasswordControl) {
+      return null;
+    }
+
+    if (confirmPasswordControl.errors && !confirmPasswordControl.errors.passwordMismatch) {
+      return null;
+    }
+
+    if (passwordControl.value !== confirmPasswordControl.value) {
+      confirmPasswordControl.setErrors({ passwordMismatch: true });
+    } else {
+      confirmPasswordControl.setErrors(null);
+    }
+  }
 }

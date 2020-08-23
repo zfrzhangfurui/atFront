@@ -1,6 +1,10 @@
 <main>
     <div>
-        <input nz-input class="filter" placeholder="Filter" nzSize="default" />
+
+        <input nz-input class="filter" placeholder="Filter" nzSize="default"
+            (keyup)="onFilteMember($event.target.value)" />
+
+
         <nz-table #basicTable [nzData]="memberTable$ | async" [nzWidthConfig]="['30%','50%']" [(nzTotal)]="total"
             [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" (nzQueryParams)="onQueryParamsChange($event)"
             [nzFrontPagination]="false">

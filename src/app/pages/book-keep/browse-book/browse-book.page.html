@@ -1,20 +1,98 @@
 <main>
 
     <section class="input_section">
-        <form nz-form [nzLayout]="'inline'" [formGroup]="form">
-            <nz-form-item>
-                <nz-form-label [nzSpan]="6" nzFor="email">name</nz-form-label>
-                <nz-form-control [nzSpan]="14">
-                    <input nz-input name="email" type="email" id="email" formControlName="name">
-                </nz-form-control>
-            </nz-form-item>
-        </form>
-        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person">
-            <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-            <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-            <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
-        </nz-select>
 
+        <div class="name-filter">
+            <h4>Select Member:</h4>
+
+
+            <nz-select nzPlaceHolder="Select Member" [(ngModel)]="selectMemberId" nzServerSearch nzShowSearch
+                [nzDropdownMatchSelectWidth]="false" [nzAllowClear]="true" [nzShowArrow]="false"
+                (nzOnSearch)="search($event)" (ngModelChange)="modelChange()">
+                <nz-option *ngFor="let o of listOfOption" [nzValue]="o.value" [nzLabel]="o.text"></nz-option>
+            </nz-select>
+        </div>
+        <div class="time-filter">
+            <div class="title">
+                <h4>fliter by: </h4>
+                <div>
+                    <nz-radio-group [(ngModel)]="radio" (ngModelChange)="modelChange()">
+                        <label nz-radio [nzValue]="'f'">Finacial Year</label>
+                        <label nz-radio [nzValue]="'y'">Range</label>
+                    </nz-radio-group>
+
+                </div>
+
+            </div>
+            <div class="picker" [ngSwitch]="radio">
+                <div class="year" *ngSwitchCase="'f'">
+                    <nz-year-picker nzPlaceHolder="Select year" [(ngModel)]="finicialYear"
+                        (ngModelChange)="modelChange()"></nz-year-picker>
+                </div>
+                <div class="date" *ngSwitchCase="'y'">
+                    <nz-date-picker [(ngModel)]="startTime" (ngModelChange)="modelChange()"></nz-date-picker>
+                    <br />
+                    <span>-</span>
+                    <nz-date-picker [(ngModel)]="endTime" (ngModelChange)="modelChange()"></nz-date-picker>
+                    <br />
+                </div>
+
+            </div>
+        </div>
+        <div class="sort">
+
+            <div class="cell_1">
+                <label>sort by time:</label>
+                <label>sort by Alphabet:</label>
+            </div>
+            <div class="cell_2">
+                <nz-switch [(ngModel)]="sortTime" (ngModelChange)="modelChange()" nzCheckedChildren="ascend"
+                    nzUnCheckedChildren="descend"></nz-switch>
+                <nz-switch [(ngModel)]="sortAlphabet" (ngModelChange)="modelChange()" nzCheckedChildren="on"
+                    nzUnCheckedChildren="off"></nz-switch>
+            </div>
+        </div>
+        <div class="button">
+            <button nz-button nzType="primary" (click)="reset()">Reset</button>
+            <button nz-button>download as Excel</button>
+        </div>
+
+    </section>
+
+    <section>
+        <nz-table #basicTable [nzData]="table$ | async"
+            [nzWidthConfig]="['10%','20%','10%','15%','10%','10%','10%','10%']" [(nzTotal)]="total"
+            [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" (nzQueryParams)="onQueryParamsChange($event)"
+            [nzFrontPagination]="false">
+            <thead style="background-color: rgb(35, 98, 77);">
+                <tr>
+                    <th class="title">member id</th>
+                    <th class="title">Name</th>
+                    <th class="title">transfer</th>
+                    <th class="title">Create time</th>
+                    <th class="title">P</th>
+                    <th class="title">c</th>
+                    <th class="title">General-money</th>
+                    <th class="title">edit</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                <tr *ngFor="let data of basicTable.data">
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.name }}</td>
+                    <td [ngClass]="{'in': data.type,'out':!data.type}">{{ data.transfer }}</td>
+                    <td>{{ data.createdAt }}</td>
+                    <td [ngClass]="{'in': data.type,'out':!data.type}">{{ data.p }}</td>
+                    <td [ngClass]="{'in': data.type,'out':!data.type}">{{ data.c }}</td>
+                    <td [ngClass]="{'in': data.type,'out':!data.type}">{{ data.g }}</td>
+                    <td>
+
+                        <button nz-button>delete</button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
 
     </section>
 </main>

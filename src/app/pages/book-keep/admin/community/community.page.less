@@ -1,0 +1,53 @@
+h4{
+    margin:0;
+    padding:0;
+}
+main{
+    display: flex;
+    &>div{
+        padding:16px 48px;
+       
+    }
+    &>.community_section{
+        width: 40%;
+        &>.community_button{
+            margin-bottom: 16px;
+            
+        }
+    }
+    &>.memeber_section{
+        width: 60%;
+        &>.member_button_section{
+            display: flex;
+            margin-bottom: 16px;
+            &>.member_button{
+                margin-right: 16px;
+            }
+        }
+
+    }
+}
+
+
+.list-item{
+    display: flex;
+    justify-content: space-evenly;
+    
+    &>.name{
+        display: flex;
+        justify-content:flex-start;
+        width: 60%;
+    }
+    &>.button{
+        display: flex;
+        justify-content: center;
+        width: 40%;
+        &>button:first-of-type{
+            margin-right: 12px;
+        }
+    }
+}
+
+.modal_input_label{
+    padding-right: 16px;
+}

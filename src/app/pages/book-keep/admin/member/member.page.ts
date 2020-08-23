@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../user.service';
-import { pluck, switchMap, tap } from 'rxjs/operators';
+import { pluck, switchMap, tap, debounceTime, distinctUntilChanged, share, withLatestFrom } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { of, BehaviorSubject, Subject } from 'rxjs';
+import { of, BehaviorSubject, Subject, combineLatest } from 'rxjs';
 import { FormBuilder, FormGroup, FormControl, RequiredValidator, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { MemberHttpResponse } from '../../../../interface/member.interface';
@@ -21,9 +21,18 @@ export class MemberPage implements OnInit {
   userInfo$ = this.userService.userInfo$.subscribe(data => {
     console.log(data);
   })
+  onFilteMember(value) {
+    this.filter$.next(value);
+  }
+
+  filter$: BehaviorSubject<string> = new BehaviorSubject('');
+  filterProcessed$ = this.filter$.pipe(debounceTime(500), distinctUntilChanged(), share());
+  filterProcessedResult = this.filterProcessed$.pipe(debounceTime(20)).subscribe(() => { this.pageIndex = 1; this.refreshTable$.next(1) })
+
   refreshTable$: Subject<number> = new Subject();
-  memberTable$ = this.refreshTable$.pipe(switchMap((pageIndex) => {
-    return this.http.get<MemberHttpResponse>(`/member/get_members?pattern=&page=${pageIndex}&limit=${this.pageSize}`).pipe(tap(data => {
+  memberTable$ = this.refreshTable$.pipe(withLatestFrom(this.filterProcessed$), switchMap(([pageIndex, pattern]) => {
+    console.log(pattern);
+    return this.http.get<MemberHttpResponse>(`/member/get_members?pattern=${pattern}&page=${pageIndex}&limit=${this.pageSize}`).pipe(tap(data => {
       this.total = data.count;
       console.log(data);
     }), pluck('list'), switchMap(data => {
@@ -37,12 +46,13 @@ export class MemberPage implements OnInit {
       return of(data_clone);
     }))
   }))
+
   onQueryParamsChange(params: NzTableQueryParams) {
     let { pageIndex } = params;
     pageIndex = +pageIndex;
     console.log(pageIndex);
     this.pageIndex = pageIndex;
-    this.refreshTable$.next(pageIndex)
+    this.refreshTable$.next(pageIndex);
   }
   memberForm: FormGroup = this.fb.group({
     firstName: new FormControl(null, [Validators.required]),

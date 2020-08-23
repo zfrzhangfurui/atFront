@@ -8,7 +8,7 @@ import { UserService } from '../../book-keep/user.service';
 export class HeaderPage implements OnInit {
 
   user$ = this.userService.userInfo$.subscribe(data => {
-    console.log(data);
+    // console.log(data);
   })
   constructor(private userService: UserService) { }
 

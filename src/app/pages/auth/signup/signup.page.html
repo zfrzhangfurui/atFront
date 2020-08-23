@@ -1,10 +1,13 @@
 <main>
-    <img class="avatar" src="/assets/ARTABANA-Logo.gif">
-    <form [formGroup]="form">
-        <fz-auth-select [selectOptions]="value" formControlName="community" class="location"></fz-auth-select>
 
-        <fz-auth-input title="Email" icon="username" (focusOut)="checkEmail($event)"
+    <form [formGroup]="form">
+        <fz-auth-select [selectOptions]="value$" formControlName="community" class="location">
+        </fz-auth-select>
+        <!-- <fz-auth-input title="Invite Code" icon="handHoldingHeart" (focusOut)="checkEmail($event)"
             [warnMessage]="vaildationResult.email" formControlName="email">
+        </fz-auth-input> -->
+        <fz-auth-input title="Email" icon="username" (focusOut)="checkEmail()" [warnMessage]="vaildationResult.email"
+            formControlName="email">
         </fz-auth-input>
         <fz-auth-input title="Password" icon="password" type="password" [warnMessage]="vaildationResult.password"
             formControlName="password">
@@ -12,7 +15,7 @@
         <fz-auth-input title="Repeat Password" icon="password" type="password"
             [warnMessage]="vaildationResult.repeatPassword" formControlName="repeatPassword" class="username">
         </fz-auth-input>
-        <input type="submit" class="btn" value="sign up" (click)="signup()">
+        <input class="btn" value="sign up" (click)="signup()">
         <div class="login">
             <a class="login-link" (click)="backToLogin()">Already have a account? Login now!</a>
         </div>

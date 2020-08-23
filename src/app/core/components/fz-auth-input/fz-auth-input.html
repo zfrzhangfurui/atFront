@@ -1,18 +1,21 @@
 <div class="input-div" [ngClass]="{'focus':inputFocusToggle}">
+
     <div class="icon">
         <fa-icon [icon]="iconType" size="2x"></fa-icon>
     </div>
     <div class="input-container">
-        <h5 [ngSwitch]="usernameValidState">
-            <span style="padding-left: 10px;" *ngSwitchCase="'default'">{{title}}</span>
-            <span style="padding-left: 10px;color: red;" *ngSwitchCase="'warningMessage'">{{message}}</span>
-            <span style="padding-left: 10px;color: rgb(101, 190, 41);"
-                *ngSwitchCase="'avaiableEmail'">{{message}}</span>
-
-
+        <h5>
+            <span style="padding-left: 10px;">{{title}}</span>
         </h5>
         <input class="input" (focus)="focusFn()" (focusout)="unFocusFn()" [type]="type" [value]="value"
+            [autocomplete]="type === 'password'?'new-password':'off'"
             (input)="onChange($event.target.value); getValue($event.target.value);" (blur)="onTouched()"
             [disabled]="disabled">
     </div>
+</div>
+
+<div class="message" [ngSwitch]="usernameValidState">
+    <span *ngSwitchCase="'default'"></span>
+    <span class="warnMessage" *ngSwitchCase="'warningMessage'">{{message}}</span>
+    <span class="successMessage" *ngSwitchCase="'avaiableEmail'">{{message}}</span>
 </div>

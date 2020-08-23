@@ -17,7 +17,8 @@ import {
   faKey,
   faChevronDown,
   faChevronUp,
-  faHouseUser
+  faHouseUser,
+  faHandHoldingHeart
 } from '@fortawesome/free-solid-svg-icons';
 import { CustomComponentModule } from './core/components/custom-component.module';
 import { IndexPage } from './pages/index/index.page';
@@ -29,6 +30,7 @@ import zh from '@angular/common/locales/zh';
 
 import { LoginPage } from './pages/auth/login/login.page';
 import { SignupPage } from './pages/auth/signup/signup.page';
+import { InviteCodePage } from './pages/auth/invite-code/invite-code.page';
 registerLocaleData(zh);
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ registerLocaleData(zh);
     IndexPage,
     AuthPage,
     LoginPage,
-    SignupPage
+    SignupPage,
+    InviteCodePage
   ],
   imports: [
     CommonModule,
@@ -59,6 +62,6 @@ registerLocaleData(zh);
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
-    library.addIcons(faCoffee, faUser, faKey, faChevronDown, faChevronUp, faHouseUser);
+    library.addIcons(faCoffee, faUser, faKey, faChevronDown, faChevronUp, faHouseUser, faHandHoldingHeart);
   }
 }

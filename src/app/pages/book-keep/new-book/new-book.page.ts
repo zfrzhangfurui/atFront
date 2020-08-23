@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { BehaviorSubject, of, interval, forkJoin, combineLatest, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, catchError } from 'rxjs/operators';
 import { TransactionStatus, Transaction, TransHttpResponse } from '../../../interface/new-book.interface';
 import { HttpClient } from '@angular/common/http';
+import { NewBookValidatorService } from './new-book.validation.service';
 import {
   trigger,
   state,
@@ -28,6 +29,11 @@ import {
   ]
 })
 export class NewBookPage implements OnInit, OnDestroy {
+  userTrySubmit: boolean = false;
+  pValidator = this.validationService.pValidator;
+  cValidator = this.validationService.cValidator;
+  gValidator = this.validationService.gValidator;
+  transferValidator = this.validationService.transferValidator;
   onPolling: boolean = false;
   savePrompt: string = 'Saved !';
   formSeq: number = 0;
@@ -38,6 +44,7 @@ export class NewBookPage implements OnInit, OnDestroy {
   config: BehaviorSubject<string> = new BehaviorSubject('init');
   transactions$ = this.http.get<TransHttpResponse>('/transactions/get_transactions').pipe(switchMap(httpRes => {
     const transactions: Array<Transaction> = httpRes.list;
+    console.log(transactions);
     this.formArray.clear();
     transactions.sort(function (a, b) {
       return +b.seq - +a.seq
@@ -54,33 +61,29 @@ export class NewBookPage implements OnInit, OnDestroy {
     return of();
   })).subscribe()
 
-  // member$ = this.http.get('/community/get_members').subscribe(_member => {
-  //   // console.log(_member);
-  // })
-
   createItem(item) {
     let i = this.fb.group({
       name: new FormControl(item.name),
-      member_Id: new FormControl(item.member_Id),
-      trans_id: item.trans_id,
+      member_id: new FormControl(item.member_id, [Validators.required]),
+      trans_id: new FormControl(item.trans_id, [Validators.required]),
       formSeq: this.formSeq,
       seq: item.seq,
       type: new FormControl(item.type),
       entryTime: new FormControl(item.entryTime),
-      createdAt: new FormControl(item.createdAt),
+      createdAt: new FormControl(item.createdAt, [Validators.required]),
       transfer: new FormControl(item.transfer),
       p: new FormControl(item.p),
       c: new FormControl(item.c),
       g: new FormControl(item.g),
       status: new FormControl(item.status)
-    })
+    }, { validator: [this.transferValidator(), this.pValidator(), this.cValidator(), this.gValidator()] })
     this.formSeq = this.formSeq + 1;
     return i;
   }
   createNewItem() {
     const item: Transaction = {
       name: null,
-      member_Id: null,
+      member_id: null,
       trans_id: null,
       formSeq: null,
       seq: null,
@@ -97,7 +100,7 @@ export class NewBookPage implements OnInit, OnDestroy {
   }
   addNewTransaction() {
     this.formArray.insert(0, this.createNewItem());
-    console.log(this.formArray);
+    // console.log(this.formArray);
   }
 
 
@@ -106,7 +109,7 @@ export class NewBookPage implements OnInit, OnDestroy {
     this.savePrompt = 'Saving ...';
 
     const form: FormGroup[] = <FormGroup[]>this.formArray.controls;
-    console.log(this.formArray);
+    // console.log(this.formArray);
     let arrOnCreate: Array<Transaction> = [];
     let arrFormSeq: Array<number> = [];
     let arrOnUpdate: Array<Transaction> = [];
@@ -120,10 +123,8 @@ export class NewBookPage implements OnInit, OnDestroy {
         arrOnUpdate.push(item.getRawValue());
       }
     }
-
-    console.log('ArrOnCreate', arrOnCreate);
-    console.log('ArrFormSeq', arrFormSeq);
-
+    // console.log('ArrOnCreate', arrOnCreate);
+    // console.log('ArrFormSeq', arrFormSeq);
     const createFn = () => {
       return this.http.post<TransHttpResponse>('/transactions/batch_create', arrOnCreate);
     }
@@ -132,50 +133,104 @@ export class NewBookPage implements OnInit, OnDestroy {
     }
 
     return forkJoin(createFn(), updateFn(), of(arrFormSeq));
-  }))
-
-    .subscribe(
-      ([resCreate, resUpdate, arrFormSeq]: [TransHttpResponse, TransHttpResponse, Array<number>]) => {
-        setTimeout(() => {
-          this.savePrompt = 'Saved !';
-        }, 500)
-        setTimeout(() => {
-          this.onPolling = false;
-        }, 1200)
-        if (resCreate.count !== 0) {
-          console.log(resCreate.list);
-          for (let [i, j] of resCreate.list.entries()) {
-            for (let q of this.formArray.controls) {
-              if (q.value.formSeq === arrFormSeq[i] && q.value.status === TransactionStatus.NEW) {
-                q.patchValue({
-                  entryTime: j.entryTime,
-                  seq: j.seq,
-                  trans_id: j.trans_id,
-                  status: TransactionStatus.OLD
-                })
-              } else if (q.value.formSeq === arrFormSeq[i] && q.value.status !== TransactionStatus.NEW) {
-                console.error(`Error in create new Transaction, the value status of ${q} is not NEW`);
-              }
+  })).subscribe(
+    ([resCreate, resUpdate, arrFormSeq]: [TransHttpResponse, TransHttpResponse, Array<number>]) => {
+      setTimeout(() => {
+        this.savePrompt = 'Saved !';
+      }, 500)
+      setTimeout(() => {
+        this.onPolling = false;
+      }, 1200)
+      if (resCreate.count !== 0) {
+        // console.log(resCreate.list);
+        for (let [i, j] of resCreate.list.entries()) {
+          for (let q of this.formArray.controls) {
+            if (q.value.formSeq === arrFormSeq[i] && q.value.status === TransactionStatus.NEW) {
+              q.patchValue({
+                entryTime: j.entryTime,
+                seq: j.seq,
+                trans_id: j.trans_id,
+                status: TransactionStatus.OLD
+              })
+            } else if (q.value.formSeq === arrFormSeq[i] && q.value.status !== TransactionStatus.NEW) {
+              console.error(`Error in create new Transaction, the value status of ${q} is not NEW`);
             }
           }
         }
+      }
 
-        if (resUpdate.success) {
-          console.log('update successfully!');
-          if (resUpdate.count > 0) {
-            this.formArray.markAsUntouched();
-          }
-          console.log(resUpdate.count);
+      if (resUpdate.success) {
+        console.log('update successfully!');
+        if (resUpdate.count > 0) {
+          this.formArray.markAsUntouched();
+        }
+        // console.log(resUpdate.count);
+      }
+    }
+  );
+
+
+
+  submit() {
+    console.log(this.formArray);
+    for (let i = this.formArray.controls.length - 1; i >= 0; i -= 1) {
+      const controlGroup: FormGroup = <FormGroup>this.formArray.controls[i];
+      const stateControl: FormControl = <FormControl>controlGroup.controls.status;
+      if (stateControl.value === TransactionStatus.ONDELETE) {
+        this.formArray.removeAt(i);
+      }
+    }
+    let count = 0;
+    this.formArray.controls.forEach((controlGroup: FormGroup, index) => {
+      for (let i in controlGroup.errors) {
+        if (controlGroup.errors.hasOwnProperty(i)) {
+          ++count;
         }
       }
-    );
-  unsub() {
-    this.Polling.unsubscribe();
+      for (let i in controlGroup.controls) {
+        if (controlGroup.get(i).invalid) {
+          ++count
+        }
+      }
+    })
+    this.errorCount = count;
+    this.isVisible = true;
   }
+
+  /********modal************/
+  isVisible = false;
+  isConfirmLoading = false;
+  errorCount: number;
+  handleOk(): void {
+    this.isConfirmLoading = true;
+
+    if (this.formArray.valid) {
+      this.http.post('/record/batch_create', this.formArray.getRawValue()).
+        pipe(switchMap(() => {
+          return this.http.delete('/transactions/batch_delete')
+        })).subscribe(data => {
+          this.isVisible = false;
+          this.userTrySubmit = false;
+          this.isConfirmLoading = false;
+          this.formArray.clear();
+          this.addNewTransaction()
+        },
+          err => {
+            console.log(err)
+          })
+    }
+  }
+
+  handleCancel(): void {
+    this.userTrySubmit = true;
+    this.isVisible = false;
+  }
+
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private render: Renderer2
+    private render: Renderer2,
+    private validationService: NewBookValidatorService
   ) { }
 
   ngOnInit(): void {
@@ -183,7 +238,6 @@ export class NewBookPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.Polling.unsubscribe();
   }
-  submit() {
-  }
+
 
 }

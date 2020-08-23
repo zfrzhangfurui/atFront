@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Self, Optional, Renderer2, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'fz-auth-select',
@@ -10,7 +11,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 export class FzAuthSelect implements OnInit, ControlValueAccessor {
     selectToggle: boolean = false;
-    @Input('selectOptions') data: Array<string>;
+    @Input('selectOptions') data: Observable<[{ community: string, id: string }]>;
     @ViewChild('options') options: ElementRef;
     @ViewChild('bg') bg: ElementRef;
     value: string = 'Find your community';
@@ -26,9 +27,9 @@ export class FzAuthSelect implements OnInit, ControlValueAccessor {
             this.renderer.setStyle(this.options.nativeElement, 'display', 'none');
         }
     }
-    clickFn(value) {
-        this.value = value;
-        console.log(value);
+    fillSelectedOptionAndResetStyles(name) {
+        this.value = name;
+        console.log(name);
         this.selectToggle = !this.selectToggle;
         this.renderer.setStyle(this.options.nativeElement, 'display', 'none')
         this.renderer.setStyle(this.bg.nativeElement, 'display', 'none');

@@ -1,6 +1,7 @@
 :host{
     display: block;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -24,7 +25,8 @@ main{
             width: 6%;
             display: flex;
             justify-content: center;
-            align-items: flex-end;
+            padding-top: 15px;
+            align-items: center;
             padding-bottom: 5px;
             &>ng-tag{
                 width: 25px;
@@ -36,6 +38,19 @@ main{
             width: 100%;
             display: flex;
             justify-content: space-between;
+            &>.input_name{
+                display: flex;
+                flex-direction: column;
+                width: 15%;
+                &>input{
+                    width: 100%;
+                    max-width: 200px;
+                }
+                &>nz-date-picker{
+                    width: 100%;
+                    max-width: 200px;
+                }
+            }
             &>.input-div{
                 display: flex;
                 flex-direction: column;
@@ -51,10 +66,10 @@ main{
             }
             &>.button{
                 width: 20%;
-               
+               padding-top:15px;
                 display: flex;
                 justify-content: space-evenly;
-                align-items: flex-end;
+                align-items: center;
                 &>button{
                     margin-right: 2%;
                     width: 45%;
@@ -66,4 +81,12 @@ main{
     
   
     
+}
+
+.select-error{
+    border:1px solid rgb(228, 40, 78);
+}
+.error{
+    color:rgb(228, 40, 78);
+    font-size: 12px;
 }
