@@ -21,6 +21,8 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { CustomComponentModule } from '../../core/components/custom-component.module';
 import { BookIndexPage } from '../book-index/book-index.page';
 import { HeaderPage } from '../book-index/header/header.page';
@@ -66,6 +68,8 @@ import { CommunityPage } from './admin/community/community.page';
         NzDatePickerModule,
         NzSwitchModule,
         NzListModule,
+        NzStatisticModule,
+        NzTimelineModule,
         RouterModule.forChild(
             [
                 {

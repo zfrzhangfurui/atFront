@@ -1,7 +1,45 @@
 <main *ngIf="role$ | async as role">
     <app-member-first-login *ngIf="role === 'user';else dashboard"></app-member-first-login>
     <ng-template #dashboard>
+        <div class="dashboard">
+            <nz-row [nzGutter]="64">
+                <nz-col [nzSpan]="10">
+                    <nz-statistic [nzValue]="(1949101 | number)!" [nzTitle]="'Balance (AUD)'"></nz-statistic>
+                </nz-col>
+                <nz-col [nzSpan]="10">
+                    <nz-statistic [nzValue]="(2019.111 | number: '1.0-2')!" [nzTitle]="'Doposit this Year'">
+                    </nz-statistic>
+                </nz-col>
+                <nz-col [nzSpan]="4">
+                    <nz-statistic [nzValue]="(2019.111 | number: '1.0-2')!" [nzTitle]="'Withdrow this Year'">
+                    </nz-statistic>
+                </nz-col>
+            </nz-row>
 
-        123123123
+
+
+            <div class="timeline">
+                <nz-timeline nzMode="custom">
+                    <nz-timeline-item [nzPosition]="'left'">Create a services site 2015-09-01</nz-timeline-item>
+                    <nz-timeline-item nzColor="green" [nzPosition]="'left'">Solve initial network problems 2015-09-01
+                    </nz-timeline-item>
+                    <nz-timeline-item [nzDot]="dotTemplate" [nzPosition]="'right'">Sed ut perspiciatis unde omnis iste
+                        natus error sit
+                        voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+                        quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    </nz-timeline-item>
+                    <nz-timeline-item [nzPosition]="'right'" nzColor="red">Network problems being solved 2015-09-01
+                    </nz-timeline-item>
+                    <nz-timeline-item [nzPosition]="'left'">Create a services site 2015-09-01</nz-timeline-item>
+                    <nz-timeline-item [nzDot]="dotTemplate">Technical testing 2015-09-01</nz-timeline-item>
+                </nz-timeline>
+                <ng-template #dotTemplate>
+                    <i nz-icon nzType="clock-circle-o" style="font-size: 16px;"></i>
+                </ng-template>
+            </div>
+
+
+        </div>
+
     </ng-template>
 </main>

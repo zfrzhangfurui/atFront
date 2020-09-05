@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 /********************************************/
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import {
@@ -50,6 +51,7 @@ registerLocaleData(zh);
     FontAwesomeModule,
     NzSelectModule,
     CustomComponentModule,
+    NzMessageModule,
     CoreModule.forRoot({
       api_gateway: environment.api_gateway
     }),

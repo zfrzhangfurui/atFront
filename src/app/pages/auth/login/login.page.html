@@ -2,11 +2,13 @@
     <form [formGroup]="form" (ngSubmit)="login()">
         <img class="avatar" src="/assets/ARTABANA-Logo.gif">
         <!-- <h2>Welcome</h2> -->
-        <fz-auth-input icon="username" title="Username" [warnMessage]="warningMessage.username"
-            formControlName="username">
+        <fz-auth-input icon="username" title="Email"
+            [errors]="{control:'email',touched:form.controls.email.touched,errors:form.controls.email.errors}"
+            formControlName="email">
         </fz-auth-input>
-        <fz-auth-input icon="password" title="Password" [warnMessage]="warningMessage.password" type="password"
-            formControlName="password">
+        <fz-auth-input icon="password" title="Password"
+            [errors]="{control:'password',touched:form.controls.password.touched,errors:form.controls.password.errors}"
+            type="password" formControlName="password">
         </fz-auth-input>
 
 

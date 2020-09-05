@@ -51,7 +51,7 @@ export class NewBookPage implements OnInit, OnDestroy {
     })
     // console.log(transactions);
     for (let item of transactions) {
-      item.status = TransactionStatus.OLD;
+      item.TransStatus = TransactionStatus.OLD;
       this.formArray.push(this.createItem(item))
     }
     // console.log(this.formArray);
@@ -75,7 +75,7 @@ export class NewBookPage implements OnInit, OnDestroy {
       p: new FormControl(item.p),
       c: new FormControl(item.c),
       g: new FormControl(item.g),
-      status: new FormControl(item.status)
+      TransStatus: new FormControl(item.TransStatus)
     }, { validator: [this.transferValidator(), this.pValidator(), this.cValidator(), this.gValidator()] })
     this.formSeq = this.formSeq + 1;
     return i;
@@ -90,7 +90,7 @@ export class NewBookPage implements OnInit, OnDestroy {
       entryTime: null,
       type: true,
       createdAt: null,
-      status: TransactionStatus.NEW,
+      TransStatus: TransactionStatus.NEW,
       transfer: null,
       p: null,
       c: null,
@@ -115,10 +115,10 @@ export class NewBookPage implements OnInit, OnDestroy {
     let arrOnUpdate: Array<Transaction> = [];
     for (let item of form) {
       //Create
-      if (item.value.status === TransactionStatus.NEW) {
+      if (item.value.TransStatus === TransactionStatus.NEW) {
         arrOnCreate.unshift({ ...item.value });
         arrFormSeq.unshift(item.value.formSeq);
-      } else if (item.touched === true && item.value.status === TransactionStatus.OLD) { //update
+      } else if (item.touched === true && item.value.TransStatus === TransactionStatus.OLD) { //update
         console.log(item);
         arrOnUpdate.push(item.getRawValue());
       }
@@ -145,14 +145,14 @@ export class NewBookPage implements OnInit, OnDestroy {
         // console.log(resCreate.list);
         for (let [i, j] of resCreate.list.entries()) {
           for (let q of this.formArray.controls) {
-            if (q.value.formSeq === arrFormSeq[i] && q.value.status === TransactionStatus.NEW) {
+            if (q.value.formSeq === arrFormSeq[i] && q.value.TransStatus === TransactionStatus.NEW) {
               q.patchValue({
                 entryTime: j.entryTime,
                 seq: j.seq,
                 trans_id: j.trans_id,
-                status: TransactionStatus.OLD
+                TransStatus: TransactionStatus.OLD
               })
-            } else if (q.value.formSeq === arrFormSeq[i] && q.value.status !== TransactionStatus.NEW) {
+            } else if (q.value.formSeq === arrFormSeq[i] && q.value.TransStatus !== TransactionStatus.NEW) {
               console.error(`Error in create new Transaction, the value status of ${q} is not NEW`);
             }
           }
@@ -175,7 +175,7 @@ export class NewBookPage implements OnInit, OnDestroy {
     console.log(this.formArray);
     for (let i = this.formArray.controls.length - 1; i >= 0; i -= 1) {
       const controlGroup: FormGroup = <FormGroup>this.formArray.controls[i];
-      const stateControl: FormControl = <FormControl>controlGroup.controls.status;
+      const stateControl: FormControl = <FormControl>controlGroup.controls.TransStatus;
       if (stateControl.value === TransactionStatus.ONDELETE) {
         this.formArray.removeAt(i);
       }

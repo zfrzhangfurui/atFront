@@ -144,7 +144,7 @@ export class FzItem implements OnInit {
     listOfOption: Array<{ value: string; text: string }> = [];
     search(value: string) {
         console.log(value);
-        this.http.get<MemberHttpResponse>(`/member/get_members?pattern=${value}&page=1&limit=10`).pipe(pluck('list')).subscribe(data => {
+        this.http.get<MemberHttpResponse>(`/member/get_members?pattern=${value}&page=1&limit=10&status=active`).pipe(pluck('list')).subscribe(data => {
             const listOfOption: Array<{ value: any; text: any }> = [];
             data.forEach(item => {
                 listOfOption.push({

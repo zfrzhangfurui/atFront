@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { debounceTime, distinctUntilChanged, switchMap, pluck } from 'rxjs/operators';
 import { UserService } from '../../user.service';
 import { of, combineLatest, BehaviorSubject, merge } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 interface ItemData {
   name: string;
   age: number;
@@ -29,28 +30,26 @@ export class MemberFirstLoginPage implements OnInit {
   search = this.fb.group({
     value: null
   })
-
-  initTable: BehaviorSubject<boolean> = new BehaviorSubject(true)
-  table$ = merge(this.initTable, this.search.valueChanges).pipe(
+  filterValue: string = '';
+  memberFilter(value) {
+    this.memberFilter$.next(value);
+  }
+  memberFilter$: BehaviorSubject<string> = new BehaviorSubject(this.filterValue)
+  table$ = this.memberFilter$.pipe(
     debounceTime(500),
     distinctUntilChanged(),
     switchMap(val => {
-      if (val === true) {
-        return this.http.get<HttpResponeList>('/member/first_login_get_members');
-      } else {
-        console.log(val);
-        return this.http.get<HttpResponeList>(`/member/first_login_get_members?pattern=${val.value}`);
-      }
-
+      return this.http.get<HttpResponeList>(`/member/first_login_get_members?pattern=${val}`);
     }), pluck('list')
   )
   linkToMember(member) {
-    console.log(member.member_id);
 
-    this.http.put('/member/user_link_to_member', { member_id: member.member_id }).subscribe(
+    this.http.put('/member/user_link_to_member', { member_id: member._id }).subscribe(
       data => {
-        console.log(data);
-        this.userService.getUserInfo.next(true);
+        this.message.create('success', 'link to member successfully!')
+        setTimeout(() => {
+          this.userService.getUserInfo.next(true);
+        }, 2000);
       }
     ), err => {
       console.log(err);
@@ -62,14 +61,23 @@ export class MemberFirstLoginPage implements OnInit {
       const value = this.form.value;
       const name = value.firstName.trim() + ' ' + value.lastName.trim();
       this.http.post('/member/user_become_member_without_name', { name, address: value.address }).subscribe(data => {
-        this.userService.getUserInfo.next(true);
+
+        this.message.create('success', 'Update your member profile successfully!,redirect in a second!');
+        setTimeout(() => {
+          this.userService.getUserInfo.next(true);
+        }, 2000)
+
+      }, err => {
+        this.message.create('error', `${err}`);
       })
     }
   }
+
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private userService: UserService
+    private userService: UserService,
+    private message: NzMessageService
   ) { }
 
   ngOnInit(): void {

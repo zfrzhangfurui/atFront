@@ -23,4 +23,8 @@
         </div>
         <div class="option-bg" #bg></div>
     </div>
+    <div style="height: 10px;">
+        <span style="float: right; color: rgb(167, 0, 0);font-size: 12px;" *ngIf="touched&&errors?.required">
+            Community filed is required!</span>
+    </div>
 </main>

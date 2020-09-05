@@ -14,8 +14,12 @@
     </div>
 </div>
 
-<div class="message" [ngSwitch]="usernameValidState">
-    <span *ngSwitchCase="'default'"></span>
-    <span class="warnMessage" *ngSwitchCase="'warningMessage'">{{message}}</span>
-    <span class="successMessage" *ngSwitchCase="'avaiableEmail'">{{message}}</span>
+<div class="message">
+    <span class="warnMessage" *ngIf="touched && errors?.required">Field {{control}} is required!</span>
+    <span class="warnMessage" *ngIf="touched && errors?.email">This field has to be an email!</span>
+    <span class="warnMessage" *ngIf="touched && errors?.EmailUseByOthers">This email address has been used by
+        others</span>
+    <span class="warnMessage" *ngIf="touched && errors?.minlength">at least 6 characters</span>
+    <span class="warnMessage" *ngIf="touched && errors?.passwordMismatch">repeat password has to identical to
+        password</span>
 </div>

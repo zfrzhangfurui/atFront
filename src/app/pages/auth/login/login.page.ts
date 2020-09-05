@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators, RequiredValidator } fr
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
+
 
 export interface warningMessage {
   username: string,
@@ -15,50 +17,12 @@ export interface warningMessage {
   styleUrls: ['./login.page.less']
 })
 export class LoginPage implements OnInit {
-  warningMessage: warningMessage = {
-    username: null,
-    password: null
-  };
+
   form: FormGroup = this.fb.group({
-    username: new FormControl(null, [Validators.required]),
-    password: new FormControl(null, [Validators.required])
+    email: new FormControl(null, [Validators.required, Validators.email]),
+    password: new FormControl(null, [Validators.required, Validators.minLength(6)])
   })
 
-  validate(async: boolean) {
-    const controls = this.form.controls;
-    for (let i in controls) {
-      switch (i) {
-        case 'username':
-          if (controls[i].errors === null && !async) {
-            this.warningMessage[i] = null;
-          } else {
-            if (async) {
-              this.warningMessage[i] = 'Invlid Username or Password ';
-            } else {
-              if (controls[i].errors.required) {
-                this.warningMessage[i] = 'Username is required';
-              }
-            }
-          }
-          break;
-
-
-        case 'password':
-          if (controls[i].errors === null && !async) {
-            this.warningMessage[i] = null;
-          } else {
-            if (async) {
-              this.warningMessage[i] = 'Invlid Username or Password ';
-            } else {
-              if (controls[i].errors.required) {
-                this.warningMessage[i] = 'Password is required';
-              }
-            }
-          }
-          break;
-      }
-    }
-  }
 
   islogin: boolean = false;
   loginTitle: string = 'login';
@@ -83,14 +47,14 @@ export class LoginPage implements OnInit {
 
   }
   login() {
-    this.validate(false);
     if (this.form.valid && !this.islogin) {
       this.loginAnimation();
       const value = this.form.value;
       this.http.post('/auth/login', {
-        email: value.username,
+        email: value.email,
         password: value.password
       }).subscribe(data => {
+        this.message.create('success', `Logingin!, redirect your page in a second!`);
         setTimeout(() => {
           this.loginAnimation();
           console.log(data);
@@ -99,8 +63,8 @@ export class LoginPage implements OnInit {
 
       },
         err => {
+          this.message.create('error', `Invalid Email or Password!`, { nzDuration: 10000 });
           setTimeout(() => {
-            this.validate(true);
             this.loginAnimation();
             console.log(err);
           }, 2000)
@@ -116,7 +80,8 @@ export class LoginPage implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private message: NzMessageService
   ) { }
 
   ngOnInit(): void {

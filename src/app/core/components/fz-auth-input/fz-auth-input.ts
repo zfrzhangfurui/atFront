@@ -27,20 +27,22 @@ export class FzAuthInput implements OnInit, ControlValueAccessor {
     @Input() disabled: boolean;
     @Input('type') type: string = 'text';
     message: string;
-    @Input('warnMessage')
-    set warnMessage(value: string) {
-        if (value === null || value === undefined) {
-            this.usernameValidState = 'default';
-        } else {
-            if (value === 'This email is avaiable!') {
-                this.usernameValidState = 'avaiableEmail';
-                this.message = value;
-            } else {
-                this.usernameValidState = 'warningMessage';
-                this.message = value;
-            }
-
-        }
+    control: string;
+    touched: boolean;
+    errors: {
+        required?: boolean,
+        EmailUseByOthers?: boolean,
+        email?: boolean,
+        minlength?: boolean,
+        passwordMismatch?: boolean
+    };
+    @Input('errors')
+    set warnMessage(value: { control: string, touched: boolean, errors: {} }) {
+        const { control, touched, errors } = value;
+        console.log(value);
+        this.control = control;
+        this.touched = touched;
+        this.errors = errors;
     };
     setDisabledState(isDisabled: boolean): void {
         this.disabled = isDisabled;
@@ -76,9 +78,13 @@ export class FzAuthInput implements OnInit, ControlValueAccessor {
     focusFn() {
         this.focusOut.emit(false);
         this.inputFocusToggle = true;
+        this.validationSwitch = false;
     }
+
+    validationSwitch: boolean = false;
     unFocusFn() {
         this.focusOut.emit(true);
+        this.validationSwitch = true;
         if (this.value !== '' && this.value !== null) {
             this.inputFocusToggle = true;
         } else {

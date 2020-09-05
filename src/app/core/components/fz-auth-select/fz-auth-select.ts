@@ -14,6 +14,15 @@ export class FzAuthSelect implements OnInit, ControlValueAccessor {
     @Input('selectOptions') data: Observable<[{ community: string, id: string }]>;
     @ViewChild('options') options: ElementRef;
     @ViewChild('bg') bg: ElementRef;
+    touched: boolean;
+    errors?: { required?: boolean };
+    @Input('errors')
+    set errorMessage(value: { touched: boolean, errors: {} }) {
+        const { touched, errors } = value;
+        console.log(touched);
+        this.touched = touched;
+        this.errors = errors;
+    }
     value: string = 'Find your community';
     onChange: any = () => { };
     onTouched: any = () => { };

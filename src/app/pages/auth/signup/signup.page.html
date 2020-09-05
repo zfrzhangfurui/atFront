@@ -1,19 +1,25 @@
 <main>
 
     <form [formGroup]="form">
-        <fz-auth-select [selectOptions]="value$" formControlName="community" class="location">
+        <fz-auth-select [selectOptions]="value$"
+            [errors]="{touched:form.controls.community.touched,errors:form.controls.community.errors}"
+            formControlName="community" class="location">
         </fz-auth-select>
-        <!-- <fz-auth-input title="Invite Code" icon="handHoldingHeart" (focusOut)="checkEmail($event)"
-            [warnMessage]="vaildationResult.email" formControlName="email">
-        </fz-auth-input> -->
-        <fz-auth-input title="Email" icon="username" (focusOut)="checkEmail()" [warnMessage]="vaildationResult.email"
+        <fz-auth-input title="Invite Code" icon="handHoldingHeart" type="password"
+            [errors]="{control:'inviteCode',touched:form.controls.inviteCode.touched,errors:form.controls.inviteCode.errors}"
+            formControlName="inviteCode">
+        </fz-auth-input>
+        <fz-auth-input title="Email" icon="username"
+            [errors]="{control:'email',touched:form.controls.email.touched,errors:form.controls.email.errors}"
             formControlName="email">
         </fz-auth-input>
-        <fz-auth-input title="Password" icon="password" type="password" [warnMessage]="vaildationResult.password"
+        <fz-auth-input title="Password" icon="password" type="password"
+            [errors]="{control:'password',touched:form.controls.password.touched,errors:form.controls.password.errors}"
             formControlName="password">
         </fz-auth-input>
         <fz-auth-input title="Repeat Password" icon="password" type="password"
-            [warnMessage]="vaildationResult.repeatPassword" formControlName="repeatPassword" class="username">
+            [errors]="{control:'repeatPassword',touched:form.controls.repeatPassword.touched,errors:form.controls.repeatPassword.errors}"
+            formControlName="repeatPassword" class="username">
         </fz-auth-input>
         <input class="btn" value="sign up" (click)="signup()">
         <div class="login">

@@ -10,9 +10,7 @@
 
         <div class="filter">
             <label>Filter:</label>
-            <form [formGroup]="search">
-                <input nz-input type="text" formControlName="value">
-            </form>
+            <input nz-input type="text" [(ngModel)]="filterValue" (keyup)="memberFilter($event.target.value)">
         </div>
 
         <nz-table #headerTable [nzData]="table$ | async" [nzPageSize]="1000" [nzScroll]="{ y: '240px' }" class="table"

@@ -27,7 +27,7 @@ export class MemberPage implements OnInit {
 
   filter$: BehaviorSubject<string> = new BehaviorSubject('');
   filterProcessed$ = this.filter$.pipe(debounceTime(500), distinctUntilChanged(), share());
-  filterProcessedResult = this.filterProcessed$.pipe(debounceTime(20)).subscribe(() => { this.pageIndex = 1; this.refreshTable$.next(1) })
+  filterProcessedResult$ = this.filterProcessed$.pipe(debounceTime(20)).subscribe(() => { this.pageIndex = 1; this.refreshTable$.next(1) })
 
   refreshTable$: Subject<number> = new Subject();
   memberTable$ = this.refreshTable$.pipe(withLatestFrom(this.filterProcessed$), switchMap(([pageIndex, pattern]) => {
@@ -60,16 +60,61 @@ export class MemberPage implements OnInit {
     address: new FormControl(null, [Validators.required]),
 
   })
+
+  isVisible: boolean = false;
+
   addMember() {
     if (this.memberForm.valid) {
       const value = this.memberForm.value;
       const name = value.firstName.trim() + ' ' + value.lastName.trim();
-      console.log(name);
+      const pageIndex = this.pageIndex;
       this.http.put('/member/add_member', { name, address: value.address }).subscribe(data => {
         this.message.success('New member has been created, please check in Member Table!', { nzDuration: 3000 });
         this.memberForm.reset();
+        this.refreshTable$.next(pageIndex);
+        this.isVisible = false;
       }, err => { this.message.error(err, { nzDuration: 50000, nzPauseOnHover: true }); })
     }
+  }
+
+  edit_id: string;
+  editName: string;
+  editAddress: string;
+  startEdit(data): void {
+    console.log('dao zhe la !');
+    this.edit_id = data._id;
+    this.editName = data.name;
+    this.editAddress = data.address;
+  }
+  confirmEdit() {
+    const name = this.editName;
+    const address = this.editAddress;
+    const member_id = this.edit_id;
+
+    const pageIndex = this.pageIndex;
+    this.http.put('/member/edit_member', { name, address, member_id }).subscribe(_ => {
+      this.message.success(`member has been edit successfully!`, { nzDuration: 3000 });
+      this.editName = null;
+      this.editAddress = null;
+      this.edit_id = null;
+      this.refreshTable$.next(pageIndex);
+    })
+  }
+  cancelEdit() {
+    this.edit_id = null;
+    this.editName = null;
+    this.editAddress = null;
+  }
+
+  setStatus(data) {
+    let statusSetTo = data.status === 'active' ? 'deactived' : 'active';
+    const pageIndex = this.pageIndex;
+    console.log(data);
+    this.http.put('/member/set_status', { statusSetTo, community_id: data.community_id, member_id: data._id }).subscribe(res => {
+      this.message.success(`member: ${data.name} has been ${statusSetTo} successfully!`, { nzDuration: 3000 });
+      this.refreshTable$.next(pageIndex);
+    })
+    console.log(data);
   }
   constructor(
     private userService: UserService,

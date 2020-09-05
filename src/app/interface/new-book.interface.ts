@@ -17,7 +17,7 @@ export interface Transaction {
     p: number,
     c: number,
     g: number,
-    status: TransactionStatus
+    TransStatus: TransactionStatus
 }
 
 export interface TransHttpResponse extends Transaction {

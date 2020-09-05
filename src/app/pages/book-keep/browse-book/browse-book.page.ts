@@ -5,6 +5,7 @@ import { pluck, tap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import * as moment from 'moment';
 import { MemberHttpResponse } from 'src/app/interface/member.interface';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-browse-book',
@@ -58,7 +59,7 @@ export class BrowseBookPage implements OnInit {
       endTime = `${+time + 1}-07-01`;
     }
     this.selectMemberId === null ? member_id = '' : member_id = this.selectMemberId;
-    return this.http.get<{ success: boolean, count: number, list: [] }>(`/record/get_records?page=${pageIndex}&limit=10&starttime=${startTime}&endtime=${endTime}&sorttime=${this.sortTime}&sortalphabet=${this.sortAlphabet}&member_id=${member_id}`).pipe(tap(data => {
+    return this.http.get<{ success: boolean, count: number, list: [] }>(`/record/get_records?page=${pageIndex}&limit=10&starttime=${startTime}&endtime=${endTime}&sorttime=${this.sortTime}&sortalphabet=${this.sortAlphabet}&member_id=${member_id}&status=active`).pipe(tap(data => {
       this.total = data.count;
       console.log(data.list);
     }), pluck('list'))
@@ -86,6 +87,28 @@ export class BrowseBookPage implements OnInit {
     this.pageIndex$.next(1);
   }
 
+
+  download() {
+    let startTime: string, endTime: string, member_id: string;
+    if (this.radio === 'y') {
+      this.startTime === null ? startTime = '' : startTime = moment(this.startTime).format('YYYY-MM-DD');
+      this.endTime === null ? endTime = '' : endTime = moment(this.endTime).add(1, 'd').format('YYYY-MM-DD');
+    } else if (this.radio === 'f') {
+
+      const time = moment(this.finicialYear).format('YYYY');
+      startTime = `${time}-07-01`;
+      endTime = `${+time + 1}-07-01`;
+    }
+    this.selectMemberId === null ? member_id = '' : member_id = this.selectMemberId;
+    this.http.get(`/record/download_xlsx?startTime=${startTime}&endTime=${endTime}&member_id=${member_id}`, { observe: 'response', responseType: 'blob' }).subscribe(data => {
+      var blob = new Blob([data.body], { type: data.body.type });
+      var filename = 'file.xlsx';
+      saveAs(blob, filename);
+
+      console.log(123);
+      console.log(data.body);
+    });
+  }
   constructor(
     private fb: FormBuilder,
     private http: HttpClient

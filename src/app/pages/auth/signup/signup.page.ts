@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { pluck, debounceTime, take, switchMap, tap } from 'rxjs/operators';
@@ -14,73 +15,35 @@ export class SignupPage implements OnInit {
 
   form: FormGroup = this.fb.group({
     community: new FormControl(null, [Validators.required]),
+    inviteCode: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     email: new FormControl(null, [Validators.required, Validators.email], existingEmailValidator(this.http)),
     password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     repeatPassword: new FormControl(null, [Validators.required])
-  }, { validators: PasswordCompareValidateFn('password', 'repeatPassword') })
+  }, { validators: PasswordCompareValidate('password', 'repeatPassword') })
   vaildationResult = {
     email: null,
     password: null,
     repeatPassword: null
   }
   signup() {
-
-    console.log(this.form);
-    return
     const community = this.form.controls.community;
     const emailForm = this.form.controls.email;
     const password = this.form.controls.password;
-    const repeatPassword = this.form.controls.repeatPassword;
-    // this.checkEmail(true);
+    const inviteCode = this.form.controls.inviteCode;
+    console.log(this.form);
 
-
-
-    this.checkEmail();
     if (this.form.valid) {
-      if (password.value === repeatPassword.value) {
-        this.vaildationResult.repeatPassword = null;
-        this.vaildationResult.password = null
-        if (this.avaiableEmail) {
-          this.http.post('/auth/register', { community: community.value, email: emailForm.value, password: password.value }).subscribe(data => {
-            console.log(data);
-          })
-        }
-
-      } else {
-        this.vaildationResult.repeatPassword = 'not identical to password';
-      }
+      this.http.post('/auth/register', { community_id: community.value, email: emailForm.value, password: password.value, securityCode: inviteCode.value }).subscribe(data => {
+        this.message.create('success', `creating your account!, redirect to Book page in a second!`);
+        setTimeout(() => {
+          this.router.navigate(['../../book'], { relativeTo: this.route });
+        }, 3000)
+      })
     } else {
-      if (password.errors !== null) {
-        console.log(password.errors);
-        console.log(password.hasOwnProperty('errors'));
-        if (password.errors.hasOwnProperty('minlength')) {
-          this.vaildationResult.password = 'at least 6 letters';
-        }
-        if (password.errors.hasOwnProperty('required')) {
-          this.vaildationResult.password = 'This field is requied';
-        }
-      } else {
-        this.vaildationResult.password = null;
-      }
+      this.form.markAllAsTouched();
     }
-
   }
 
-  avaiableEmail: boolean = false;
-  emailFocusOutToggle: boolean;
-  checkEmail() {
-    const emailForm = this.form.controls.email;
-    if (emailForm.valid) {
-      return 0;
-    }
-    if (emailForm.hasError('required')) {
-      this.vaildationResult.email = 'Email is required!';
-    } else if (emailForm.hasError('email')) {
-      this.vaildationResult.email = 'this field must filled with Email!'
-    } else if (emailForm.hasError('EmailUseByOthers'))
-      this.vaildationResult.email = 'this This email has been used by others!'
-
-  }
   backToLogin() {
     this.router.navigate(['../login'], { relativeTo: this.route });
   }
@@ -88,17 +51,13 @@ export class SignupPage implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private message: NzMessageService
   ) { }
 
 
   ngOnInit(): void {
   }
-  asd() {
-    console.log(this.form);
-  }
-
-
 }
 
 
@@ -129,11 +88,10 @@ export function existingEmailValidator(http: HttpClient): AsyncValidatorFn {
 
 
 
-export function PasswordCompareValidateFn(password: string, confirmPassword: string): ValidatorFn {
+export function PasswordCompareValidate(password: string, confirmPassword: string): ValidatorFn {
   return (formGroup: FormGroup) => {
     const passwordControl = formGroup.get(password);
     const confirmPasswordControl = formGroup.get(confirmPassword);
-    console.log(123);
     if (!passwordControl || !confirmPasswordControl) {
       return null;
     }

@@ -1,36 +1,71 @@
 <main>
-    <div>
 
+    <div class="control">
         <input nz-input class="filter" placeholder="Filter" nzSize="default"
             (keyup)="onFilteMember($event.target.value)" />
-
-
-        <nz-table #basicTable [nzData]="memberTable$ | async" [nzWidthConfig]="['30%','50%']" [(nzTotal)]="total"
-            [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" (nzQueryParams)="onQueryParamsChange($event)"
-            [nzFrontPagination]="false">
-            <thead style="background-color: rgb(35, 98, 77);">
-                <tr>
-                    <th class="title">Name</th>
-                    <th class="title">Address</th>
-                    <th class="title">Action</th>
-                </tr>
-            </thead>
-            <tbody class="tbody">
-                <tr *ngFor="let data of basicTable.data">
-                    <td [ngClass]="{'td_empty': data.type}">{{ data.name }}</td>
-                    <td [ngClass]="{'td_empty': data.type}">{{ data.address }}</td>
-                    <td [ngClass]="{'td_empty': data.type}">
-
-                        <button nz-button *ngIf="!data.type">delete</button>
-
-                    </td>
-                </tr>
-            </tbody>
-        </nz-table>
+        <button nz-button (click)="isVisible = true">add member</button>
     </div>
+
+
+    <nz-table #basicTable [nzData]="memberTable$ | async" [nzWidthConfig]="['15%','20%','30%','5%','20%']"
+        [(nzTotal)]="total" [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize"
+        (nzQueryParams)="onQueryParamsChange($event)" [nzFrontPagination]="false">
+        <thead style="background-color: rgb(35, 98, 77);">
+            <tr>
+                <th class="title">Member ID</th>
+                <th class="title">Name</th>
+                <th class="title">Address</th>
+                <th class="title">status</th>
+                <th class="title">Action</th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            <tr *ngFor="let data of basicTable.data">
+
+                <td [ngClass]="{'td_empty': data.type}">{{ data.m_id }}</td>
+                <td [ngClass]="{'td_empty': data.type}">
+                    <div *ngIf="!data.type">
+                        <div [hidden]="edit_id === data._id">{{ data.name }}</div>
+                        <input [hidden]="edit_id !== data._id" type="text" nz-input [(ngModel)]="editName" />
+                    </div>
+                </td>
+                <td [ngClass]="{'td_empty': data.type}">
+                    <div *ngIf="!data.type">
+                        <div [hidden]="edit_id === data._id">{{ data.address }}</div>
+                        <input [hidden]="edit_id !== data._id" type="text" nz-input [(ngModel)]="editAddress" />
+                    </div>
+
+                </td>
+                <td [ngClass]="{'td_empty': data.type}"> <span
+                        [ngClass]="{active: data.status === 'active',deactived:data.status === 'deactived'}">{{ data.status }}</span>
+                </td>
+                <td [ngClass]="{'td_empty': data.type}">
+                    <div *ngIf="!data.type">
+                        <div class="action_div" *ngIf="edit_id === data._id">
+                            <button nz-button (click)="confirmEdit()" class="button_confirm">confirm</button>
+                            <button nz-button (click)="cancelEdit()" class="button_cancel">cancel</button>
+                        </div>
+                        <div class="action_div" *ngIf="edit_id !== data._id">
+                            <button nz-button (click)="startEdit(data)">edit</button>
+                            <button nz-button nz-popconfirm
+                                [ngClass]="{button_danger: data.status==='active',button_safe:data.status==='deactived'}"
+                                [nzPopconfirmTitle]="'Comfirm to change status to '+ data.name"
+                                (nzOnConfirm)="setStatus(data)"
+                                (nzOnCancel)="true">{{data.status === 'active'? 'deactive':'active'}}</button>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</main>
+
+
+<nz-modal [nzFooter]="null" [(nzVisible)]="isVisible" nzTitle="Add new member" (nzOnCancel)="isVisible = false"
+    (nzOnOk)="addMember()">
     <div class="add_member_div">
         <div class="add_member">
-            <h2>New Member</h2>
             <form nz-form [nzLayout]="'vertical'" [formGroup]="memberForm" (ngSubmit)="addMember()">
                 <div style="display: flex; justify-content: flex-start;">
                     <nz-form-item>
@@ -62,9 +97,5 @@
                 </nz-form-item>
             </form>
         </div>
-
-
-
-
     </div>
-</main>
+</nz-modal>

@@ -74,6 +74,19 @@ export class CommunityPage implements OnInit {
     this.pageIndex = pageIndex;
     this.pageIndex$.next(pageIndex);
   }
+
+  changeRole(data) {
+    let newRole;
+    const pageIndex = this.pageIndex;
+    data.user_id.role === 'member' ? newRole = 'admin' : newRole = 'member';
+    this.http.put('/user/upgrade_user', { role: newRole, user_id: data.user_id._id }).subscribe(_ => {
+      this.pageIndex$.next(pageIndex);
+      this.message.create('success', `member id: ${data.m_id}, role of ${data.name} has been changed!`, { nzDuration: 5000 });
+    },
+      httpErrorRes => {
+        this.message.create('error', httpErrorRes.error.message);
+      })
+  }
   constructor(
     private http: HttpClient,
     private message: NzMessageService,
