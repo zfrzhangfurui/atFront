@@ -33,7 +33,8 @@ import { UserService } from './user.service';
 import { NewBookValidatorService } from './new-book/new-book.validation.service';
 import { BrowseBookPage } from './browse-book/browse-book.page';
 import { CommunityPage } from './admin/community/community.page';
-
+import { SettingsPage } from './admin/settings/settings.page';
+import { AuthGuard } from '../../core/guards/auth.guard';
 @NgModule({
     declarations: [
         AdminPage,
@@ -45,6 +46,7 @@ import { CommunityPage } from './admin/community/community.page';
         MemberPage,
         BrowseBookPage,
         CommunityPage,
+        SettingsPage,
     ],
     imports: [
         NzTableModule,
@@ -74,16 +76,16 @@ import { CommunityPage } from './admin/community/community.page';
             [
                 {
                     path: '', component: BookIndexPage, children: [
-                        { path: '', redirectTo: 'dashboard-page', pathMatch: 'full' },
-                        { path: 'admin-page', component: AdminPage },
-                        { path: 'new-book-page', component: NewBookPage },
-                        { path: 'dashboard-page', component: DashboardPage },
-                        { path: 'browse-book-page', component: BrowseBookPage },
-                    ]
+                        { path: '', redirectTo: 'dashboard-page', pathMatch: 'full', canActivate: [AuthGuard] },
+                        { path: 'admin-page', component: AdminPage, canActivate: [AuthGuard] },
+                        { path: 'new-book-page', component: NewBookPage, canActivate: [AuthGuard] },
+                        { path: 'dashboard-page', component: DashboardPage, canActivate: [AuthGuard] },
+                        { path: 'browse-book-page', component: BrowseBookPage, canActivate: [AuthGuard] },
+                    ], canActivate: [AuthGuard]
                 }
             ]
         )
     ],
-    providers: [UserService, NewBookValidatorService]
+    providers: [UserService, NewBookValidatorService, AuthGuard]
 })
 export class BookModule { }

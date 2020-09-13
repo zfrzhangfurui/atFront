@@ -1,0 +1,100 @@
+<main>
+    <section class="reset_invite_code_section">
+        <div *ngIf="!isMatchOldSecurityCode">
+            <h4>Reset Invite Code</h4>
+            <form nz-form [nzLayout]="'vertical'" [formGroup]="validSecurityCodeForm"
+                (ngSubmit)="validOldSecurityCodeSubmit()">
+                <nz-form-item>
+                    <nz-form-label>Old invite code: </nz-form-label>
+                    <nz-form-control [nzErrorTip]="oldSecurityCodeErrorTip">
+                        <input nz-input formControlName="oldSecurityCode" placeholder="invite code" />
+                        <ng-template #oldSecurityCodeErrorTip let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please enter a invite Code!
+                            </ng-container>
+                            <ng-container *ngIf="control.hasError('minlength')">
+                                at least 6 char
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button type="submit" nzType="primary"
+                            [disabled]="validSecurityCodeForm.invalid">Confirm</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <div *ngIf="isMatchOldSecurityCode">
+            <h4>Reset Invite Code</h4>
+            <form nz-form [nzLayout]="'vertical'" [formGroup]="setNewSecurityCodeForm" (ngSubmit)="submitResetForm()">
+                <nz-form-item>
+                    <nz-form-label>New invite code: </nz-form-label>
+                    <nz-form-control [nzErrorTip]="NewSecurityCodeErrorTip">
+                        <input nz-input formControlName="newSecurityCode" placeholder="invite code" />
+                        <ng-template #NewSecurityCodeErrorTip let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please enter a invite Code!
+                            </ng-container>
+                            <ng-container *ngIf="control.errors">
+                                at least 6 char
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Confirm new invite code: </nz-form-label>
+                    <nz-form-control [nzErrorTip]="matchNewSecurityCodeErrorTip">
+                        <input nz-input formControlName="matchNewSecurityCode" placeholder="invite code" />
+                        <ng-template #matchNewSecurityCodeErrorTip let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please enter a invite Code!
+                            </ng-container>
+                            <ng-container *ngIf="control.hasError('securityCodeMismatch')">
+                                please match the invite code
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button type="submit" nzType="primary"
+                            [disabled]="setNewSecurityCodeForm.invalid">Confirm</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+
+    </section>
+    <section class="community_specific">
+        <h4>Set Community details (this detail will display on homepage)</h4>
+        <form nz-form [nzLayout]="'vertical'" [formGroup]="communitySettingForm" (ngSubmit)="submitSettingForm()">
+            <nz-form-item>
+                <nz-form-label>contact person: </nz-form-label>
+                <nz-form-control nzErrorTip="contactPerson is required!">
+                    <input nz-input formControlName="contactPerson" placeholder="name" />
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label>contact email address: </nz-form-label>
+                <nz-form-control nzErrorTip="communityEmail is required!">
+                    <input nz-input formControlName="communityEmail" placeholder="email" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label>contact Phone Number: </nz-form-label>
+                <nz-form-control nzErrorTip="contactNumber is required!">
+                    <input nz-input formControlName="contactNumber" placeholder="number" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <button nz-button type="submit" nzType="primary"
+                        [disabled]="communitySettingForm.invalid">Confirm</button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </section>
+</main>

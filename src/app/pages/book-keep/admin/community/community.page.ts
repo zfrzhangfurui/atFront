@@ -82,6 +82,7 @@ export class CommunityPage implements OnInit {
     this.http.put('/user/upgrade_user', { role: newRole, user_id: data.user_id._id }).subscribe(_ => {
       this.pageIndex$.next(pageIndex);
       this.message.create('success', `member id: ${data.m_id}, role of ${data.name} has been changed!`, { nzDuration: 5000 });
+      this.communityListSubject$.next(true);
     },
       httpErrorRes => {
         this.message.create('error', httpErrorRes.error.message);

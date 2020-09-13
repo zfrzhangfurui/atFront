@@ -7,9 +7,11 @@ import { environment } from 'src/environments/environment';
 import { CoreModule } from './core/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 /********************************************/
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import {
@@ -32,6 +34,7 @@ import zh from '@angular/common/locales/zh';
 import { LoginPage } from './pages/auth/login/login.page';
 import { SignupPage } from './pages/auth/signup/signup.page';
 import { InviteCodePage } from './pages/auth/invite-code/invite-code.page';
+import { UserService } from './pages/book-keep/user.service';
 registerLocaleData(zh);
 @NgModule({
   declarations: [
@@ -52,6 +55,8 @@ registerLocaleData(zh);
     NzSelectModule,
     CustomComponentModule,
     NzMessageModule,
+    NzModalModule,
+    NzFormModule,
     CoreModule.forRoot({
       api_gateway: environment.api_gateway
     }),
@@ -59,7 +64,7 @@ registerLocaleData(zh);
     ReactiveFormsModule,
     BrowserAnimationsModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

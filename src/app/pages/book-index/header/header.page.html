@@ -18,8 +18,8 @@
 
     </ul>
     <div class="user">
+        <h2 style="margin-right: 16px;" *ngIf="user$ | async  as user">Welcome! {{ user.name}} </h2>
 
-        <nz-avatar nzSize="large" nzIcon="user"></nz-avatar>
-        <h2>Welcome!</h2>
+        <button nz-button nzType="danger" (click)="logOut()">LogOut</button>
     </div>
 </nav>

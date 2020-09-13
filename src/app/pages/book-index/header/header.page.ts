@@ -1,4 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { pluck } from 'rxjs/operators';
 import { UserService } from '../../book-keep/user.service';
 @Component({
   selector: 'app-header',
@@ -7,10 +11,17 @@ import { UserService } from '../../book-keep/user.service';
 })
 export class HeaderPage implements OnInit {
 
-  user$ = this.userService.userInfo$.subscribe(data => {
-    // console.log(data);
-  })
-  constructor(private userService: UserService) { }
+  user$ = this.userService.userInfo$.pipe(pluck('userInfo'))
+  logOut() {
+    this.http.get('/auth/logout').subscribe(_ => {
+      this.router.navigate(['/index'])
+    })
+  }
+  constructor(
+    private userService: UserService,
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }

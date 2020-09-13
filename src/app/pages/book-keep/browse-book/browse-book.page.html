@@ -13,7 +13,7 @@
             </nz-select>
         </div>
         <div class="time-filter">
-            <div class="title">
+            <div class="filter_title">
                 <h4>fliter by: </h4>
                 <div>
                     <nz-radio-group [(ngModel)]="radio" (ngModelChange)="modelChange()">
@@ -87,7 +87,9 @@
                     <td [ngClass]="{'in': data.type,'out':!data.type}">{{ data.g }}</td>
                     <td>
 
-                        <button nz-button>delete</button>
+                        <button nz-button nzType="danger" nz-popconfirm [nzPopconfirmTitle]="'Confirm to Delete!'"
+                            (nzOnConfirm)="onDeleteRecord(data)" (nzOnCancel)="true"
+                            nzPopconfirmPlacement="topLeft">delete</button>
 
                     </td>
                 </tr>

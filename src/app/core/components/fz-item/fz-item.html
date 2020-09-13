@@ -12,7 +12,7 @@
 
                 <nz-select [ngClass]="{'select-error': form.get('member_id').hasError('required') && userTrySubmit}"
                     nzPlaceHolder="Select Member" formControlName="member_id" nzServerSearch nzShowSearch
-                    [nzDropdownMatchSelectWidth]="false" [nzAllowClear]="true" [nzShowArrow]="false"
+                    autocomplete="off" [nzDropdownMatchSelectWidth]="false" [nzAllowClear]="true" [nzShowArrow]="false"
                     (ngModelChange)="selectValueChange()" (nzOnSearch)="search($event)">
                     <nz-option *ngFor="let o of listOfOption" [nzValue]="o.value" [nzLabel]="o.text"></nz-option>
                 </nz-select>

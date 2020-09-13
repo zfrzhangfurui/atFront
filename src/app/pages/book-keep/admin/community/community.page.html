@@ -4,16 +4,16 @@
         <nz-table #communityTable [nzShowPagination]="false" [nzData]="communityList$ | async">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>admin</th>
-                    <th>action</th>
+                    <th class="title">Name</th>
+                    <th class="title">admin</th>
+                    <th class="title">action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="tbody">
                 <tr *ngFor="let data of communityTable.data">
                     <td>{{data.community}}</td>
                     <td>{{data.adminNames}}</td>
-                    <td>
+                    <td style="text-align: center;">
                         <button nz-button (click)="selectCommunity(data)">select</button>
                     </td>
                 </tr>

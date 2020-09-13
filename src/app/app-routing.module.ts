@@ -4,6 +4,7 @@ import { IndexPage } from './pages/index/index.page';
 import { AuthPage } from './pages/auth/auth.page';
 import { LoginPage } from './pages/auth/login/login.page';
 import { SignupPage } from './pages/auth/signup/signup.page';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full' },
@@ -15,7 +16,8 @@ const routes: Routes = [
       { path: 'signup', component: SignupPage }
     ]
   },
-  { path: 'book', loadChildren: () => import('./pages/book-keep/book.module').then(m => m.BookModule) }
+  { path: 'book', loadChildren: () => import('./pages/book-keep/book.module').then(m => m.BookModule), canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '/index' }
 ];
 
 @NgModule({

@@ -10,7 +10,7 @@
     <nz-table #basicTable [nzData]="memberTable$ | async" [nzWidthConfig]="['15%','20%','30%','5%','20%']"
         [(nzTotal)]="total" [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize"
         (nzQueryParams)="onQueryParamsChange($event)" [nzFrontPagination]="false">
-        <thead style="background-color: rgb(35, 98, 77);">
+        <thead>
             <tr>
                 <th class="title">Member ID</th>
                 <th class="title">Name</th>

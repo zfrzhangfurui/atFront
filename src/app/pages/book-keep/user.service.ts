@@ -8,7 +8,9 @@ export interface User {
     success: boolean,
     userInfo: {
         email: string,
-        role: string
+        role: string,
+        name: string,
+        address: string
     }
 }
 @Injectable()
@@ -22,7 +24,7 @@ export class UserService {
     userInfo$ = this.user$.pipe(shareReplay())
     constructor(private http: HttpClient) {
         this.userInfo$.subscribe(data => {
-            // console.log(data);
+            console.log(data);
         })
     }
 } 

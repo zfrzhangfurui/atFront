@@ -2,19 +2,20 @@
     <section class="background-picture-main">
         <a><img src="assets/ARTABANA-Logo.gif" /> </a>
         <h2 class="background-title">Artabana Australia</h2>
-    </section>
-    <section class="body-main">
         <nav class="nav-main">
             <ul class="nav-main__ul">
                 <li (click)="scrollTo(vision)">Vision</li>
-                <li (click)="scrollTo(financial)">Purpose</li>
-                <li>Financial</li>
-                <li>Australian</li>
+                <!-- <li (click)="scrollTo(financial)">Purpose</li> -->
+                <li (click)="scrollTo(financial)">Financial</li>
+                <li (click)="scrollTo(Groups)">Australian Groups</li>
                 <li class="nav_main__li--cta" [routerLink]="['/auth']" routerLinkActive="router-link-active">
                     Login
                 </li>
             </ul>
         </nav>
+    </section>
+    <section class="body-main">
+
         <div>
             <div class="body-left"></div>
             <div class="body-right">
@@ -24,235 +25,244 @@
                     'nav-right__ul_display_none ': !onScrolling
                 }">
                         <li (click)="scrollTo(vision)">Vision</li>
-                        <li (click)="scrollTo(financial)">Purpose</li>
-                        <li>Financial</li>
-                        <li>Australian</li>
-                        <li class="nav_main__li--cta">
+                        <!-- <li (click)="scrollTo(financial)">Purpose</li> -->
+                        <li (click)="scrollTo(financial)">Financial</li>
+                        <li (click)="scrollTo(Groups)">Australian Groups</li>
+                        <li class="nav_main__li--cta" [routerLink]="['/auth']" routerLinkActive="router-link-active">
                             Login
                         </li>
                     </ul>
                 </nav>
             </div>
             <div class="body-middle">
-                <h2 style="margin-top: 5rem;" #vision>Our vision</h2>
-                <p class="text-justify">
-                    Responsible individuals coming together of their own free will and
-                    decision to form a community, within the framework of an organised
-                    society. The society framework allows for concerted social action on
-                    the basis of individual motivation and commitment.
-                </p>
-                <p class="text-justify">
-                    The society respects the uniqueness and independence of the
-                    individual, upholding his or her sphere of privacy. The individual
-                    acknowledges the aims of the society and contributes to their
-                    implementation out of an active interest in his or her fellow human
-                    beings.
-                </p>
+                <h2 class="content_title" style="margin-top: 3rem;" #vision>Our vision</h2>
+                <h3 class="content_subtitle">
+                    Our organisation is named after ARTABAN, the fourth of the Magi, and inspired by his life story as
+                    told by Henry van Dyke.
+                </h3>
 
-                <p class="text-justify">
-                    To quote Rudolf Steiner: “Society must shape itself so as to reflect
-                    the human soul, and the power inherent within the soul of the
-                    individual must be vibrantly expressed in society. ”
+                <p class="content_body">Responsible individuals coming together of their own free will and decision to
+                    form a community,
+                    within the framework of an organised society. The society framework allows for concerted social
+                    action on the basis of individual motivation and commitment.</p>
+                <p class="content_body">The society respects the uniqueness and independence of the individual,
+                    upholding his or her sphere of privacy. The individual acknowledges the aims of the society and
+                    contributes to their implementation out of an active interest in his or her fellow human beings.
                 </p>
-                <p class="text-justify">
-                    The aims of society formation are to<br />
-                    • promote social security, and<br />
-                    • improve living conditions within the framework of a cooperative
-                    society, in the interest of the individual's path of development.<br />
-                    Social security arises through human solidarity expressed in deeds.
-                    When one person considers the welfare of another, taking an interest
-                    in the other, an awareness arises of situations of need. In becoming
-                    more aware of situations of need and successfully overcoming them
-                    through joint action, we foster trust and confidence. Being part of
-                    a society founded upon trust in turn empowers us to follow our
-                    chosen paths.
+                <p class="content_body">
+                    To quote Rudolf Steiner: “Society must shape itself so as to reflect the human soul, and the power
+                    inherent within the soul of the individual must be vibrantly expressed in society. ”
                 </p>
-                <p class="text-justify">
-                    “The strength of a society is reflected in the welfare of its
-                    weakest, most needy members. ” The society provides assistance where
-                    assistance is needed, performing what the affected individual is
-                    unable to perform by him or herself. The only actions taken by the
-                    society are those democratically co-determined by each of its
-                    members.
+                <p class="content_body">
+                    The aims of society formation are to : promote social security, and improve living conditions within
+                    the framework of a cooperative society, in the interest of the individual's path of development.
+                    Social security arises through human solidarity expressed in deeds. When one person considers the
+                    welfare of another, taking an interest in the other, an awareness arises of situations of need. In
+                    becoming more aware of situations of need and successfully overcoming them through joint action, we
+                    foster trust and confidence. Being part of a society founded upon trust in turn empowers us to
+                    follow our chosen paths.</p>
+                <p class="content_body">“The strength of a society is reflected in the welfare of its weakest, most
+                    needy members. ” The society provides assistance where assistance is needed, performing what the
+                    affected individual is unable to perform by him or herself. The only actions taken by the society
+                    are those democratically co-determined by each of its members.</p>
+                <p class="content_body">This process requires regular interaction and discussion by the members.
+                    Individual societies are formed in a manner (small, regional) ensuring that all members sufficiently
+                    know each other personally. This is even true of multi-regional societal alliances.</p>
+                <div style="float: right;width: 40%;padding:16px"><img style="height:100%;width: 100%;"
+                        src="assets/img/picture.jpeg" /></div>
+                <p class="content_body">
+                    Emergency assistance is provided in the form of demonstrated concern, help and voluntary gifting.
+                    Security arises from an individual’s trust in the society’s ability to help him or her (not from
+                    insurance or financial contracts).
                 </p>
-                <p class="text-justify">
-                    This process requires regular interaction and discussion by the
-                    members. Individual societies are formed in a manner (small,
-                    regional) ensuring that all members sufficiently know each other
-                    personally. This is even true of multi-regional societal alliances.
+                <p class="content_body">“People are there to help each other, and when help is legitimately needed, help
+                    should be asked for. It is this way all over the world, and asking by no means amounts to begging. ”
+                    Jeremias Gotthelf
                 </p>
-                <p class="text-justify">
-                    Emergency assistance is provided in the form of demonstrated
-                    concern, help and voluntary gifting. Security arises from an
-                    individual’s trust in the society’s ability to help him or her (not
-                    from insurance or financial contracts).
+                <p class="content_body">Health is essential to life. ARTABANA distinguishes between individual, personal
+                    health and general, public health, addressing these two different areas separately.</p>
+                <p class="content_body">ARTABANA societies create legal and economic conditions allowing individual,
+                    personal healthcare on the basis of free choice, and an individual path to health.
                 </p>
-                <p class="text-justify">
-                    “People are there to help each other, and when help is legitimately
-                    needed, help should be asked for. It is this way all over the world,
-                    and asking by no means amounts to begging. ” Jeremias Gotthelf
+                <p class="content_body">In specific:</p>
+                <p class="content_body">• Recognition of the uniqueness of the individual, i.e. the fact that illness is
+                    inherently individual in nature, therefore requiring an individual treatment and recovery approach.
                 </p>
-                <p class="text-justify">
-                    Health is essential to life. ARTABANA distinguishes between
-                    individual, personal health and general, public health, addressing
-                    these two different areas separately.
+                <p class="content_body">• Illness is an expression of the individual's karma, the shaping of destiny on
+                    his or her life path. The society never provides unsolicited advice regarding an individual's health
+                    issues.</p>
+                <p class="content_body">• Free choice of healthcare practitioner, practice or institution and treatment
+                    options for illness.</p>
+                <p class="content_body">• Voluntary financial support to provide access to the desired treatment
+                    options.</p>
+                <p class="content_body">• The possibility for the patient and healthcare practitioner (or group
+                    practice/institution) to freely enter into individual financial agreements.</p>
+                <p class="content_body">ARTABANA societies raise awareness (consciousness) of ways to promote general,
+                    public health. This extends to the preserving and creating of a healthy environment, and to healthy
+                    forms of social interaction and living. The societies support, promote and sponsor these through the
+                    appropriation of financial resources based on democratic decision-making processes.
                 </p>
-                <p class="text-justify">
-                    ARTABANA societies create legal and economic conditions allowing
-                    individual, personal healthcare on the basis of free choice, and an
-                    individual path to health.
-                </p>
-                <p class="text-justify">
-                    In specific:<br />
-                    • Recognition of the uniqueness of the individual, i.e. the fact
-                    that illness is inherently individual in nature, therefore requiring
-                    an individual treatment and recovery approach.<br />
-                    • Illness is an expression of the individual's karma, the shaping of
-                    destiny on his or her life path. The society never provides
-                    unsolicited advice regarding an individual's health issues.<br />
-                    • Free choice of healthcare practitioner, practice or institution
-                    and treatment options for illness.<br />
-                    • Voluntary financial support to provide access to the desired
-                    treatment options.<br />
-                    • The possibility for the patient and healthcare practitioner (or
-                    group practice/institution) to freely enter into individual
-                    financial agreements.<br />
-                    ARTABANA societies raise awareness (consciousness) of ways to
-                    promote general, public health. This extends to the preserving and
-                    creating of a healthy environment, and to healthy forms of social
-                    interaction and living. The societies support, promote and sponsor
-                    these through the appropriation of financial resources based on
-                    democratic decision-making processes.
-                </p>
-                <p class="text-justify">Legal relationships</p>
-                <p class="text-justify">
-                    Legal relationships within ARTABANA societies are conceived so as to
-                    uphold respect for the sphere of privacy of the individual, to
-                    demonstrate the principle of human equality in action on a
+                <h3 class="content_subtitle">Relationships</h3>
+                <p class="content_body">
+                    Legal relationships within ARTABANA societies are conceived so as to uphold respect for the sphere
+                    of privacy of the individual, to demonstrate the principle of human equality in action on a
                     day-to-day basis, and to guarantee personal freedoms.
                 </p>
-                <p class="text-justify">
-                    Mutual respect for otherness and individuality, and for the personal
-                    and lifestyle decisions of others, are the fundament upon which
-                    these legal relationships rest.
-                </p>
-                <p class="text-justify">
-                    Individuals gathering and meeting together gives rise to community.
-                </p>
+                <p class="content_body">
+                    Mutual respect for otherness and individuality, and for the personal and lifestyle decisions of
+                    others, are the fundament upon which these legal relationships rest.</p>
+                <p class="content_body">
+                    Individuals gathering and meeting together gives rise to community.</p>
+                <p class="content_body">This community then establishes the framework of a society based on agreements
+                    freely concluded between and among members. Individual societies are entirely free with regard to
+                    the choice and structuring of these legal relationships, which must be consistent and conform with
+                    applicable laws.</p>
+                <p class="content_body">Respecting existing law provides a framework for legal concepts implemented
+                    internally within the societies. The principle governing internal legal relationships between
+                    individuals is respect and recognition of the other.</p>
+                <p class="content_body">ARTABANA societies make resolutions by consensus, forgoing the application of
+                    external law to matters concerning internal relations. In cases where a consensus cannot be obtained
+                    regarding a resolution, individuals representing minority opinions must be heard, allowing the
+                    decision of the majority to be respected in turn.
 
-                <p class="text-justify">
-                    This community then establishes the framework of a society based on
-                    agreements freely concluded between and among members. Individual
-                    societies are entirely free with regard to the choice and
-                    structuring of these legal relationships, which must be consistent
-                    and conform with applicable laws.
                 </p>
-                <p class="text-justify">
-                    Respecting existing law provides a framework for legal concepts
-                    implemented internally within the societies. The principle governing
-                    internal legal relationships between individuals is respect and
-                    recognition of the other.
+                <p class="content_body">An ARTABANA-internal consensus-building committee is elected to address any
+                    disputes. The committee conducts arbitration efforts in a spirit of consensus-building.
                 </p>
-                <p class="text-justify">
-                    ARTABANA societies make resolutions by consensus, forgoing the
-                    application of external law to matters concerning internal
-                    relations. In cases where a consensus cannot be obtained regarding a
-                    resolution, individuals representing minority opinions must be
-                    heard, allowing the decision of the majority to be respected in
-                    turn.
-                </p>
-                <p class="text-justify">
-                    An ARTABANA-internal consensus-building committee is elected to
-                    address any disputes. The committee conducts arbitration efforts in
-                    a spirit of consensus-building.
-                </p>
-                <p class="text-justify">
-                    The goal is to achieve a maximisation of democratic determination
-                    rights – the right to participate in the governance and shaping of
-                    the society with regard to its structures and activities, extending
-                    to issues of voting, appointments, review privileges, privacy and
-                    data protection.
-                </p>
-                <p class="text-justify">
-                    Administration is to be kept streamlined and tasks apportioned among
-                    members so as to permit self-management on a voluntary basis.
-                </p>
-                <p class="text-justify">
-                    The prerequisite for membership in an ARTABANA society is
-                    declaration of acceptance of this vision statement. ARTABANA
-                    societies are formed on a local level (chapters), which may
-                    voluntarily combine with other local societies to form regional
-                    solidarity alliances, or become a member of an existing regional
-                    society.
-                </p>
-                <p class="text-justify">
-                    Local ARTABANA societies comprise the backbone of the national
-                    ARTABANA movement and are its bearers.
-                </p>
+                <p class="content_body">The goal is to achieve a maximisation of democratic determination rights – the
+                    right to participate in the governance and shaping of the society with regard to its structures and
+                    activities, extending to issues of voting, appointments, review privileges, privacy and data
+                    protection.</p>
+                <p class="content_body">Administration is to be kept streamlined and tasks apportioned among members so
+                    as to permit self-management on a voluntary basis.</p>
+                <p class="content_body">The prerequisite for membership in an ARTABANA society is declaration of
+                    acceptance of this vision statement. ARTABANA societies are formed on a local level (chapters),
+                    which may voluntarily combine with other local societies to form regional solidarity alliances, or
+                    become a member of an existing regional society.</p>
+                <p class="content_body">
+                    Local ARTABANA societies comprise the backbone of the national ARTABANA movement and are its
+                    bearers.</p>
 
-                <h2 class="text-center" style="margin-top: 6rem;" #financial>
+
+                <h2 class="content_title" style="margin-top: 6rem;" #financial>
                     Financial policies
                 </h2>
-                <p class="text-justify">
-                    Financial policies are designed with the aim of channelling
-                    financial resources in a way that is beneficial and healing from a
-                    social standpoint.
+
+                <p class="content_body">Financial policies are designed with the aim of channelling financial resources
+                    in a way that is beneficial and healing from a social standpoint.
+
                 </p>
-                <p class="text-justify">
-                    The ultimate source of economic resources set in motion by ARTABANA
-                    lies in the will of the individual to give to others who have fallen
-                    on hardship or are in need – individuals who are faring worse than
-                    oneself (Declaration of Intent/Contribution Pledge). ARTABANA
-                    societies are solidarity communities organised to help people in any
-                    kind of accident or illness situation.
+                <p class="content_body">The ultimate source of economic resources set in motion by ARTABANA lies in the
+                    will of the individual to give to others who have fallen on hardship or are in need – individuals
+                    who are faring worse than oneself (Declaration of Intent/Contribution Pledge). ARTABANA societies
+                    are solidarity communities organised to help people in any kind of accident or illness situation.
+
                 </p>
-                <p class="text-justify">
-                    Out of knowledge of and a concern for the needs of other individuals
-                    (ARTABANA members or others) members individually make regular or
-                    one-time binding contributions by way of gifting in amounts
-                    reflecting their own priorities, the significance they attach to
-                    health and the means and resources available to them. Gifts go to
-                    the direct benefit of those in need, or are deposited to the
-                    society's solidarity fund.
+                <p class="content_body">Out of knowledge of and a concern for the needs of other individuals (ARTABANA
+                    members or others) members individually make regular or one-time binding contributions by way of
+                    gifting in amounts reflecting their own priorities, the significance they attach to health and the
+                    means and resources available to them. Gifts go to the direct benefit of those in need, or are
+                    deposited to the society's solidarity fund.
+
                 </p>
-                <p class="text-justify">
-                    Members are free to structure financial arrangements with healthcare
+                <p class="content_body">Members are free to structure financial arrangements with healthcare
                     practitioners or practices at their own discretion.
                 </p>
-                <p class="text-justify">
-                    The societies jointly determine how the resources in the solidarity
-                    fund are to be used. The following usage purposes are allowed:<br />
-                    - To cover healthcare or health maintenance expenses up to a certain
-                    percentage of the solidarity contribution made by the individual
-                    member on a voluntary basis. ARTABANA members are thus
-                    self-payers.<br />
-                    - Gifts or loans provided by the society to members or non-members
-                    as support in situations of need<br />
-                    - Gifts or interest-free loans provided to promote general, public
-                    health. In this manner ARTABANA societies financially support the
-                    institution of public healthcare.<br />
-                    The society provides assistance to individuals in need in view of
-                    what is required and the amount the individual in question is unable
-                    to come up with on his or her own. The individual may in such case
-                    petition for assistance, or the society may approach the individual
-                    in need of its own accord.
+                <p class="content_body">
+                    The societies jointly determine how the resources in the solidarity fund are to be used. The
+                    following usage purposes are allowed:</p>
+                <p class="content_body">• To cover healthcare or health maintenance expenses up to a certain percentage
+                    of the solidarity contribution made by the individual member on a voluntary basis. ARTABANA members
+                    are thus self-payers.
+
                 </p>
-                <p class="text-justify">
-                    In providing assistance the society’s aim at all times is to remedy
-                    a specific, individual situation of need. ARTABANA societies do not
-                    employ a schedule of payable benefits implying any payment
-                    obligation; there are no reimbursements, no invoices, no premiums.
+                <p class="content_body">• Gifts or loans provided by the society to members or non-members as support in
+                    situations of need</p>
+                <p class="content_body">• Gifts or interest-free loans provided to promote general, public health. In
+                    this manner ARTABANA societies financially support the institution of public healthcare.</p>
+                <p class="content_body">The society provides assistance to individuals in need in view of what is
+                    required and the amount the individual in question is unable to come up with on his or her own. The
+                    individual may in such case petition for assistance, or the society may approach the individual in
+                    need of its own accord.</p>
+                <p class="content_body">In providing assistance the society’s aim at all times is to remedy a specific,
+                    individual situation of need. ARTABANA societies do not employ a schedule of payable benefits
+                    implying any payment obligation; there are no reimbursements, no invoices, no premiums.
                 </p>
-                <p class="text-justify">
-                    Assistance may be provided from the national society level and
-                    national solidarity fund for need situations exceeding the capacity
-                    of a regional society.<br />
-                    – Issue August 2010 –
-                    asdfafaffdfasdfasdfdfasdfsafsd
-                </p>
+                <p class="content_body">Assistance may be provided from the national society level and national
+                    solidarity fund for need situations exceeding the capacity of a regional society.</p>
+                <p class="content_body">– Issue August 2010 –</p>
+
+                <h2 class="content_title" style="margin-top: 6rem;" #Groups>
+                    Australian Groups
+                </h2>
+                <div>
+
+                </div>
+                <div>
+                    <table>
+                        <thead>
+                            <th>Community</th>
+                            <th>Contact Person</th>
+                            <th>Email (Click to send Email)</th>
+                            <th>Contact Number</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let community of communityTable$ | async">
+                                <td>{{community.community}}</td>
+                                <td>{{community.contactPerson}}</td>
+                                <td (click)="showModal(community)">{{community.communityEmail}}</td>
+                                <td>{{community.contactNumber}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
     </section>
 </main>
 <footer style="width: 100%; background-color: coral; height: 100px;"></footer>
+
+
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'Email to ' + contactPerson"
+    (nzOnCancel)="isVisible = false;emailForm.reset()" (nzOnOk)="handleOk()">
+
+
+    <form nz-form [formGroup]="emailForm">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>Your Email: </nz-form-label>
+            <nz-form-control [nzSpan]="16" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+                <input nz-input formControlName="email" placeholder="Email address" />
+                <ng-template #emailErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                        Please input your Email!
+                    </ng-container>
+                    <ng-container *ngIf="control.hasError('email')">
+                        The input is not valid E-mail!
+                    </ng-container>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>Title</nz-form-label>
+            <nz-form-control [nzSpan]="16" nzHasFeedback [nzErrorTip]="titleErrorTpl">
+                <input nz-input formControlName="title" placeholder="Title" />
+                <ng-template #titleErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                        Email must have a title!
+                    </ng-container>
+
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>Content</nz-form-label>
+            <nz-form-control [nzSpan]="16" nzErrorTip="Please write something here!">
+                <textarea formControlName="content" nz-input rows="5" placeholder="write any thing"></textarea>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+
+</nz-modal>
