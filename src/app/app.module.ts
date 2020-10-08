@@ -58,7 +58,8 @@ registerLocaleData(zh);
     NzModalModule,
     NzFormModule,
     CoreModule.forRoot({
-      api_gateway: environment.api_gateway
+      api_gateway: environment.api_gateway,
+      base_url: environment.baseUrl
     }),
     FormsModule,
     ReactiveFormsModule,

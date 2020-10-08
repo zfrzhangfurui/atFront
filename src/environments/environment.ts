@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  api_gateway: '/api/v1'
+  api_gateway: '/api/v1',
+  //  baseUrl: 'http://157.230.49.76'
+  baseUrl: ''
+
 };
 
 /*
